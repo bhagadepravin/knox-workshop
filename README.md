@@ -78,13 +78,13 @@ I. Fresh 7.x DC Cluster
        -  All UIs and APIs are selected for autodiscovery and proxying by Knox by default - admin may opt-out of those unwanted via checkboxes in Knox admin page
        -  Additional config may be required to enable trusted proxy for certain services or put HS2 in HTTP mode, etc.
        -  Any required config changes may require restart of one or more service
-    4. URLs for UIs and APIs will be made available as QuickLinks|Home Page|Client Configs
-    5. Gateway URLs will be able to be used for UI access
-    6. Gateway URLs for API access
-       - a.  HTTP Basic is the default authentication mechanism for proxied API access
-       - b.  by default it authenticates against PAM (again assuming local accounts due to a secure cluster)
-       - c.  Authentication is done at the gateway via the Shiro authentication provider
-       - d.  Upon successful authentication the request is dispatched to the backend service API - propagating the effective user via trusted proxy (kerberos+doAs)
+  4. URLs for UIs and APIs will be made available as QuickLinks|Home Page|Client Configs
+  5. Gateway URLs will be able to be used for UI access
+  6. Gateway URLs for API access
+       -  HTTP Basic is the default authentication mechanism for proxied API access
+       -  By default it authenticates against PAM (again assuming local accounts due to a secure cluster)
+       -  Authentication is done at the gateway via the Shiro authentication provider
+       -  Upon successful authentication the request is dispatched to the backend service API - propagating the effective user via trusted proxy (kerberos+doAs)
 
 # Install Knox
  
