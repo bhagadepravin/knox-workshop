@@ -163,3 +163,32 @@ It is very important that these topologies will be deployed by CM only, and only
 ![Enable/Disable Service Auto-Discovery](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/auto_discovery.png)
 
 As you can see, the Knox CSD comes with some pre-defined service parameters out-of-the-box (e.g. ***CM-API:httpclient.connectionTimeout=5m***), but it does not mean CM-API will be added in ***cdp-proxy*** and/or ***cdp-proxy-api*** topologies. If end-users want a known service (that is, the service is an officially supported Knox service with all the required service definition files) to be included in these topologies they need to enable that service on CM UI using the corresponding gateway_auto_discovery_***[cdp-proxy|cdp-proxy-api]_enabled_$service*** checkbox. For instance, enabling Atlas API and UI services in cdp-proxy end-users should check ***[gateway_auto_discovery_cdp_proxy_enabled_atlas***[ and ***gateway_auto_discovery_cdp_proxy_enabled_atlas_ui***:
+
+![auto_discovery_cdp_proxy_enabled_atlas](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/auto_discovery_cdp_proxy_enabled_atlas.png)
+
+If end-users want a custom service *(that is, the service is not officially supported by the Knox team, but end-users have their own service definition files)* in **cdp-proxy** and/or **cdp-proxy-api** topologies they simply need to add the service declaration in any of the above shown *Knox Simplified Topology Management* panels.
+
+In the following samples, I’ll guide you on how to **add/remove/update** known and custom services to **cdp-proxy**.
+
+
+## 1. Adding a known service to *cdp-proxy*
+
+In this sample, we are going to add **ATLAS** and **ATLAS UI** to *cdp-proxy*. You should simply enable *gateway_auto_discovery_cdp_proxy_enabled_atlas* and *gateway_auto_discovery_cdp_proxy_enabled_atlas_ui* checkboxes on Knox’s Configuration page in CM and save the changes. As a result, the **'Refresh needed'** stale configuration indicator appears. You should click it and wait until the refresh process finished.
+
+![knox_atlas](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/knox-atlas.png)
+
+You can check if **ATLAS** and **ATLAS-UI** were added to *cdp-proxy* by hitting the following URL:
+https://$KNOX_GATEWAY_HOST:PORT/$GATEWAY_PATH/admin/api/v1/topologies/cdp-proxy
+
+
+## 2. Adding a custom service parameter to a known service (assuming the service is already enabled; see the previous point)
+
+In this sample, we are going to add a custom service parameter with a custom value (*myCustomServiceParameter=myValue*) to ATLAS in cdp-proxy.
+
+It is as simple as adding a new line in the ***Knox Simplified Topology Management - cdp-proxy*** panel in the following format: **$SERVICE_NAME[:$PARAMETER_NAME=$PARAMETER_VALUE]**.
+The 'url' and 'version' parameter names are preserved keywords to set the given service's URL and version. Valid declarations:
+HIVE:url=http://localhost:123
+HIVE:version:3.0.0
+HIVE:test.pramameter.name=test.parameter.value
+
+After you added the new ATLAS entry and saved the changes the **'Refresh needed'** stale configuration indicator appears. You should click it and wait until the refresh process finished.
