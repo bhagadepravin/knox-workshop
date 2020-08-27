@@ -8,6 +8,7 @@ In this workshop we will configure and understand Knox authentication to use wit
  - [LAB 1:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-1)
    -  Knox Overview
    -  Knox Usecase
+   -  Knox Configs
 
  - [LAB 2:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-2)
    -  Install Knox
@@ -85,6 +86,7 @@ I] *Fresh 7.x DC Cluster*
        -  Authentication is done at the gateway via the Shiro authentication provider
        -  Upon successful authentication the request is dispatched to the backend service API - propagating the effective user via trusted proxy (kerberos+doAs)
 
+# [Knox configs](https://docs.cloudera.com/cloudera-manager/7.1.1/installation/topics/cdpdc-knox-install-parameters.html)
 
 # LAB 2:
 
