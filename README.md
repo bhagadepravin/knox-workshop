@@ -6,8 +6,8 @@ The Apache Knox Gateway is a system that provides a single point of authenticati
 
   - Provide perimeter security for Hadoop REST APIs to make Hadoop security easier to setup and use
  - Provide authentication and token verification at the perimeter
-Enable authentication integration with enterprise and cloud identity management systems
-Provide service level authorization at the perimeter
-Expose a single URL hierarchy that aggregates REST APIs of a Hadoop cluster
+ * Enable authentication integration with enterprise and cloud identity management systems
+ . Provide service level authorization at the perimeter
+ _ Expose a single URL hierarchy that aggregates REST APIs of a Hadoop cluster
 Limit the network endpoints (and therefore firewall holes) required to access a Hadoop cluster
 Hide the internal Hadoop cluster topology from potential attackers
