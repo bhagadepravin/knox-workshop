@@ -86,7 +86,9 @@ I] *Fresh 7.x DC Cluster*
        -  Authentication is done at the gateway via the Shiro authentication provider
        -  Upon successful authentication the request is dispatched to the backend service API - propagating the effective user via trusted proxy (kerberos+doAs)
 
-## [Knox configs](https://docs.cloudera.com/cloudera-manager/7.1.1/installation/topics/cdpdc-knox-install-parameters.html)
+# [Knox configs](https://docs.cloudera.com/cloudera-manager/7.1.1/installation/topics/cdpdc-knox-install-parameters.html)
+
+
 
 # LAB 2:
 
