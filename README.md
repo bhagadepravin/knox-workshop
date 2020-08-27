@@ -8,10 +8,9 @@ In this workshop we will configure and understand Knox authentication to use wit
  - [LAB 1:]()
    -  Knox Overview
    -  Knox Usecase
-   -  Install Knox
 
  - [LAB 2:]()
-   -  Knox Uses Cases
+   -  Install Knox
 
  - [LAB 3:]() 
    -  Managing Knox shared providers in Cloudera Manager
@@ -85,6 +84,9 @@ I] *Fresh 7.x DC Cluster*
        -  By default it authenticates against PAM (again assuming local accounts due to a secure cluster)
        -  Authentication is done at the gateway via the Shiro authentication provider
        -  Upon successful authentication the request is dispatched to the backend service API - propagating the effective user via trusted proxy (kerberos+doAs)
+
+
+# LAB 2:
 
 # Install Knox
  
