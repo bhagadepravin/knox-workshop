@@ -16,7 +16,7 @@ In this workshop we will configure and understand Knox authentication to use wit
  - [LAB 3:]()
     -  Generating API and UI topologies in Knox CSD
        -  Adding a known service to cdp-proxy
-       -  Adding a custom service parameter to a known service (assuming the service is already enabled; see the previous point)
+       -  Adding a custom service parameter to a known service (assuming the service is already enabled)
        -  Updating a custom service parameter
        -  Removing a custom service parameter
        -  Removing a known service from cdp-proxy
