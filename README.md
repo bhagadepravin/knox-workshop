@@ -18,10 +18,10 @@ The Apache Knox Gateway is a system that provides a single point of authenticati
  - [LAB 1:]()
    -  Install Knox
 
- - (LAB 2:) 
+ - [LAB 2:]()
    -  Knox Uses Cases
 
- - LAB 3: 
+ - [LAB 3:]() 
    -  Managing Knox shared providers in Cloudera Manager
       -  SSO authentication provider
 	        *  PAM to LDAP
@@ -29,14 +29,14 @@ The Apache Knox Gateway is a system that provides a single point of authenticati
 	        *  PAM to LDAP
       -  Saving Aliases
 
- - LAB 3: 
+ - [LAB 4:]() 
    -  Modifying an existing shared provider
       -  Disabling a provider in an existing provider configuration
       -  Modifying a provider in an existing provider configuration
       -  Add a new provider in an existing provider configuration
       -  Adding a new shared provider configuration
 
- - LAB 4: 
+ - [LAB 5:]() 
    -  Generating API and UI topologies in Knox CSD
       -  Adding a known service to cdp-proxy
       -  Adding a custom service parameter to a known service (assuming the service is already enabled; see the previous point)
@@ -46,11 +46,11 @@ The Apache Knox Gateway is a system that provides a single point of authenticati
       -  Adding a custom service in cdp-proxy
       -  Adding a custom topology in the deployed Knox Gateway
 
- - LAB 5: 
+ - [LAB 6:]() 
    -  Replace knox ssl certificate
    -  Knox SSO with keycloak
 
- - LAB 6: 
+ - [LAB 7:]() 
    -  Troubleshooting
       -  How authentication works and its logging 
       -  Error codes
