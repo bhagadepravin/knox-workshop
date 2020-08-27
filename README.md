@@ -65,7 +65,7 @@ In this workshop we will configure and understand Knox authentication to use wit
  
 Once Knox is Installed.
 
- -  By default, Knox authentication for default topology are set to PAM.
+ -  By default, Knox authentication for default topologies are set to PAM. 
  
  **Step 4:** We need to create a pam user and he should be part of admin group on all Knox Host.
  
