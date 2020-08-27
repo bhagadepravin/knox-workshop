@@ -269,19 +269,19 @@ In addition to the above-described attributes, you can also define service-disco
 -  Adding/modifying new/existing shared provider configurations
 -  Saving aliases using a new Knox Gateway command
 
-## SSO authentication provider
+## 1. SSO authentication provider
 
 With the newest version of CM a new Knox configuration has been added, called ***Knox Simplified Topology Management - SSO Authentication Provider***, with the following initial configuration:
 
 ```bash
-            role=authentication
-            authentication.name=ShiroProvider
-            authentication.param.sessionTimeout=30
-            authentication.param.redirectToUrl=/${GATEWAY_PATH}/knoxsso/knoxauth/login.html
-            authentication.param.restrictedCookies=rememberme,WWW-Authenticate
-            authentication.param.urls./**=authcBasic
-            authentication.param.main.pamRealm=org.apache.knox.gateway.shirorealm.KnoxPamRealm
-            authentication.param.main.pamRealm.service=login
+role=authentication
+authentication.name=ShiroProvider
+authentication.param.sessionTimeout=30
+authentication.param.redirectToUrl=/${GATEWAY_PATH}/knoxsso/knoxauth/login.html
+authentication.param.restrictedCookies=rememberme,WWW-Authenticate
+authentication.param.urls./**=authcBasic
+authentication.param.main.pamRealm=org.apache.knox.gateway.shirorealm.KnoxPamRealm
+authentication.param.main.pamRealm.service=login
 ```
 ![sso](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/sso.png)
 
