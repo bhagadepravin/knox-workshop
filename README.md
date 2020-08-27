@@ -201,7 +201,63 @@ After you added the new ATLAS entry and saved the changes the **'Refresh needed'
 
 You can confirm if **ATLAS** in *cdp-proxy* got updated with the new service parameter the same way as described above.
 You can check by hitting the following URL:
+
 (https://$KNOX_GATEWAY_HOST:PORT/$GATEWAY_PATH/admin/api/v1/topologies/cdp-proxy)
 
 
 ## 3. Updating a custom service parameter
+
+In this sample, we are going to update a previously entered service parameter - ***myCustomServiceParameter=myValue*** to ***myNewValue***- from **ATLAS** in *cdp-proxy*. We simply change that entry, save our changes and refresh our cluster.
+
+
+## 4. Removing a custom service parameter
+
+In this sample, we are going to remove a previously entered service parameter - ***myCustomServiceParameter=myNewValue*** - from **ATLAS** in *cdp-proxy*. We simply remove that entry, save our changes and refresh our cluster.
+
+
+## 5. Removing a known service from cdp-proxy
+
+In this sample, we are going to remove the previously added **ATLAS** and **ATLAS-UI** services from *cdp-proxy*. We disable the *gateway_auto_discovery_cdp_proxy_enabled_atlas* and *gateway_auto_discovery_cdp_proxy_enabled_atlas_ui* checkboxes on Knox’s Configuration page in CM, save the changes and refresh the cluster.
+
+
+## 6. Adding a custom service in cdp-proxy
+
+In this sample, we are going to add a custom service (MY_SERVICE) in *cdp-proxy* with the following attributes:
+-  version - the service’s version. We will set it to 1.0.0
+-  url - the service URL. We will set it to https://sampleHost:1234
+-  service parameter - a sample service parameter. We will define a custom service parameter just like above for ATLAS
+
+It is very important to note that adding a custom service only makes sense if the service definition files ***(service.xml and rewrite.xml)*** are existing in the ***KNOX_DATA_DIR/services*** folder.
+
+To achieve the goals we need to add 3 new entries with the above-listed parameters in ***Knox Simplified Topology Management - cdp-proxy***. Then we save the changes, refresh the cluster and check if the newly added custom service is available in *cdp-proxy*.
+
+![knox-custom](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/%20custom%20service.png)
+
+
+## 7. Adding a custom topology in the deployed Knox Gateway
+
+In this sample, we are going to add a custom service (MY_SERVICE) in custom-topology with the following attributes:
+-  **providerConfigRef** - a string representing a reference of an existing share-provider. We will use the pre-configured pam provider
+-  **version** - the service’s version. We will set it to 1.0.0
+-  **url** - the service URL. We will set it to *https://sampleHost:1234*
+-  **service parameter** - a sample service parameter. We will define a custom service parameter just like above for ATLAS
+
+To achieve our goals we need to add a new entry in Knox Gateway Advanced Configuration Snippet (Safety Valve) for conf/cdp-resources.xml:
+
+```bash
+Name = custom-topology
+Value =providerConfigRef=pam#
+MY_SERVICE:version=1.0.0#
+MY_SERVICE:url=https://sampleHost:1234#
+MY_SERVICE:myCustomServiceParameter=myValue
+#Description = This is a custom topology with one service called MY_SERVICE
+```
+
+In addition to the above-described attributes, you can also define service-discovery related configuration in your custom descriptor:
+-  ***discoveryType*** - the type of service discovery. Valid values are: ClouderaManager, Ambari
+-  ***discoveryAddress*** - the service-discovery end-point
+-  ***discoveryUser*** - the user name which the service discovery feature uses to connect to the previously set address. This is optional, if not present Knox will try to fetch the discovery user using the previously saved cm.discovery.user Gateway level alias (CM generates it automatically in case service discovery is enabled).
+-  ***discoveryPasswordAlias*** - the password alias (on Gateway level) the service discovery uses to get the connection password using Knox’s alias service. Please note that the alias should be created in advance! This is optional, if not present Knox will try to fetch the discovery password using the previously saved cm.discovery.password Gateway level alias (CM generates it automatically in case service discovery is enabled).
+-  ***cluster*** - the cluster to be discovered
+
+
