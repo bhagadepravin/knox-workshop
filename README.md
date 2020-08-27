@@ -260,4 +260,53 @@ In addition to the above-described attributes, you can also define service-disco
 -  ***discoveryPasswordAlias*** - the password alias (on Gateway level) the service discovery uses to get the connection password using Knox’s alias service. Please note that the alias should be created in advance! This is optional, if not present Knox will try to fetch the discovery password using the previously saved cm.discovery.password Gateway level alias (CM generates it automatically in case service discovery is enabled).
 -  ***cluster*** - the cluster to be discovered
 
+# LAB 4:
 
+# Managing Knox shared providers in Cloudera Manager
+
+-  Modifying the SSO authentication provider used by the UIs using the Knox SSO capabilities such as the Admin and Home Page UIs
+-  Modifying the API authentication provider used by pre-defined topologies such as admin, metadata or cdp-proxy-api
+-  Adding/modifying new/existing shared provider configurations
+-  Saving aliases using a new Knox Gateway command
+
+## SSO authentication provider
+
+With the newest version of CM a new Knox configuration has been added, called ***Knox Simplified Topology Management - SSO Authentication Provider***, with the following initial configuration:
+
+```bash
+            role=authentication
+            authentication.name=ShiroProvider
+            authentication.param.sessionTimeout=30
+            authentication.param.redirectToUrl=/${GATEWAY_PATH}/knoxsso/knoxauth/login.html
+            authentication.param.restrictedCookies=rememberme,WWW-Authenticate
+            authentication.param.urls./**=authcBasic
+            authentication.param.main.pamRealm=org.apache.knox.gateway.shirorealm.KnoxPamRealm
+            authentication.param.main.pamRealm.service=login
+```
+![sso](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/sso.png)
+
+
+Every change here goes directly into **knoxsso** topology that affects **manager**, **homepage** and **cdp-proxy** topologies as they are using the federation provider.
+
+In the following sample you will see how to change the PAM authentication *(which comes OOTB with Knox)* to LDAP authentication. It is as simple as replacing the PAM related configuration entries in the above ShiroProvider to LDAP related properties (e.g. with demo LDAP server configuration):
+
+```bash
+role=authentication
+authentication.name=ShiroProvider
+authentication.param.sessionTimeout=30
+authentication.param.redirectToUrl=/${GATEWAY_PATH}/knoxsso/knoxauth/login.html
+authentication.param.restrictedCookies=rememberme,WWW-Authenticate
+authentication.param.urls./**=authcBasic
+authentication.param.main.ldapRealm=org.apache.hadoop.gateway.shirorealm.KnoxLdapRealm
+authentication.param.main.ldapContextFactory=org.apache.knox.gateway.shirorealm.KnoxLdapContextFactory
+authentication.param.main.ldapRealm.contextFactory=$ldapContextFactory
+authentication.param.main.ldapRealm.contextFactory.authenticationMechanism=simple
+authentication.param.main.ldapRealm.contextFactory.url=ldap://localhost:33389
+authentication.param.main.ldapRealm.contextFactory.systemUsername=uid=guest,ou=people,dc=hadoop,dc=apache,dc=org
+authentication.param.main.ldapRealm.contextFactory.systemPassword=${ALIAS=knoxLdapSystemPassword}
+authentication.param.main.ldapRealm.userDnTemplate=uid={0},ou=people,dc=hadoop,dc=apache,dc=org
+```
+
+After you finished editing the properties you have to save the configuration changes. This will make the **Refresh Needed** stale configuration indicator appear. Once the cluster refresh finishes, all topologies that are configured to use Knox SSO will be authenticated by the configured LDAP server.
+
+![knox-ldap](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/ldap.png)
