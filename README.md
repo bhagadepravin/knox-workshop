@@ -153,3 +153,13 @@ $ id <username>
 In CDP DC there is no Cloudbreak who can deploy cdp-proxy and cdp-proxy-api topologies in Knox. To make it easier for end-users we introduced two new CM configurations where these topologies can be managed within CM:
   -  *Knox Simplified Topology Management - **cdp-proxy***
   -  *Knox Simplified Topology Management - **cdp-proxy-api***
+
+![Knox Simplified Topology Management](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/Knox%20Simplified%20Topology%20Management%20.png)
+
+Each of these configurations describes a Knox topology called **cdp-proxy** and **cdp-proxy-api**, respectively. End-users are allowed to add/remove/update services into/from these topologies as well as creating their own custom topology(ies) by editing the appropriate safety valve (see below).
+
+It is very important that these topologies will be deployed by CM only, and only if Knox’s service auto-discovery feature is turned on using the *Enable/Disable Service Auto-Discovery* checkbox on CM UI:
+
+![Enable/Disable Service Auto-Discovery](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/auto_discovery.png)
+
+As you can see, the Knox CSD comes with some pre-defined service parameters out-of-the-box (e.g. ***CM-API:httpclient.connectionTimeout=5m***), but it does not mean CM-API will be added in ***cdp-proxy*** and/or ***cdp-proxy-api*** topologies. If end-users want a known service (that is, the service is an officially supported Knox service with all the required service definition files) to be included in these topologies they need to enable that service on CM UI using the corresponding gateway_auto_discovery_***[cdp-proxy|cdp-proxy-api]_enabled_$service*** checkbox. For instance, enabling Atlas API and UI services in cdp-proxy end-users should check ***[gateway_auto_discovery_cdp_proxy_enabled_atlas***[ and ***gateway_auto_discovery_cdp_proxy_enabled_atlas_ui***:
