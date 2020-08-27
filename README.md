@@ -13,7 +13,18 @@ In this workshop we will configure and understand Knox authentication to use wit
  - [LAB 2:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-2)
    -  Install Knox
 
- - [LAB 3:]() 
+ - [LAB 3:]()
+    -  Generating API and UI topologies in Knox CSD
+       -  Adding a known service to cdp-proxy
+       -  Adding a custom service parameter to a known service (assuming the service is already enabled; see the previous point)
+       -  Updating a custom service parameter
+       -  Removing a custom service parameter
+       -  Removing a known service from cdp-proxy
+       -  Adding a custom service in cdp-proxy
+       -  Adding a custom topology in the deployed Knox Gateway
+
+
+ - [LAB 4:]() 
    -  Managing Knox shared providers in Cloudera Manager
       -  SSO authentication provider
 	        *  PAM to LDAP
@@ -21,22 +32,12 @@ In this workshop we will configure and understand Knox authentication to use wit
 	        *  PAM to LDAP
       -  Saving Aliases
 
- - [LAB 4:]() 
+ - [LAB 5:]() 
    -  Modifying an existing shared provider
       -  Disabling a provider in an existing provider configuration
       -  Modifying a provider in an existing provider configuration
       -  Add a new provider in an existing provider configuration
       -  Adding a new shared provider configuration
-
- - [LAB 5:]() 
-   -  Generating API and UI topologies in Knox CSD
-      -  Adding a known service to cdp-proxy
-      -  Adding a custom service parameter to a known service (assuming the service is already enabled; see the previous point)
-      -  Updating a custom service parameter
-      -  Removing a custom service parameter
-      -  Removing a known service from cdp-proxy
-      -  Adding a custom service in cdp-proxy
-      -  Adding a custom topology in the deployed Knox Gateway
 
  - [LAB 6:]() 
    -  Replace knox ssl certificate
@@ -141,3 +142,17 @@ $ id <username>
  ```
  
  **Step 5:** Use above username and password to login into Knox Homepage UI or Admin page UI.
+ ![Knox Homepage](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/image.png)
+ 
+ 
+ 
+ # LAB 3:
+ 
+# Managing Knox shared providers in Cloudera Manager
+
+##  SSO authentication provider
+
+	        *  PAM to LDAP
+      -  API Authentication Provider
+	        *  PAM to LDAP
+      -  Saving Aliases
