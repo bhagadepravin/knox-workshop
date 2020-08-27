@@ -178,7 +178,7 @@ In this sample, we are going to add **ATLAS** and **ATLAS UI** to *cdp-proxy*. Y
 ![knox_atlas](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/knox-atlas.png)
 
 You can check if **ATLAS** and **ATLAS-UI** were added to *cdp-proxy* by hitting the following URL:
-https://$KNOX_GATEWAY_HOST:PORT/$GATEWAY_PATH/admin/api/v1/topologies/cdp-proxy
+(https://$KNOX_GATEWAY_HOST:PORT/$GATEWAY_PATH/admin/api/v1/topologies/cdp-proxy)
 
 
 ## 2. Adding a custom service parameter to a known service (assuming the service is already enabled; see the previous point)
@@ -187,8 +187,21 @@ In this sample, we are going to add a custom service parameter with a custom val
 
 It is as simple as adding a new line in the ***Knox Simplified Topology Management - cdp-proxy*** panel in the following format: **$SERVICE_NAME[:$PARAMETER_NAME=$PARAMETER_VALUE]**.
 The 'url' and 'version' parameter names are preserved keywords to set the given service's URL and version. Valid declarations:
+```bash
 HIVE:url=http://localhost:123
 HIVE:version:3.0.0
 HIVE:test.pramameter.name=test.parameter.value
+```
 
 After you added the new ATLAS entry and saved the changes the **'Refresh needed'** stale configuration indicator appears. You should click it and wait until the refresh process finished.
+
+![ATLAS-myCustomServiceParameter](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/ATLAS-myCustomServiceParameter.png)
+![atlas-cdp-resources](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/atlas-cdp-resources.png)
+
+
+You can confirm if **ATLAS** in *cdp-proxy* got updated with the new service parameter the same way as described above.
+You can check by hitting the following URL:
+(https://$KNOX_GATEWAY_HOST:PORT/$GATEWAY_PATH/admin/api/v1/topologies/cdp-proxy)
+
+
+## 3. Updating a custom service parameter
