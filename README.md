@@ -15,10 +15,10 @@ The Apache Knox Gateway is a system that provides a single point of authenticati
 ------------------------------------------------------------------------------------------------------------------------------
 
 
- - LAB 1:
+ - [LAB 1:]
    -  Install Knox
 
- - LAB 2: 
+ - (LAB 2:) 
    -  Knox Uses Cases
 
  - LAB 3: 
