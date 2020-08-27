@@ -51,7 +51,7 @@ In this workshop we will configure and understand Knox authentication to use wit
 
 # LAB 1:
  
- *Step 1:  Setup CDP-DC cluster with latest version.(Use squadron or Ycloud)
+ *Step 1:*  Setup CDP-DC cluster with latest version.(Use squadron or Ycloud)
  *Step 2:  Enable Kerberos (using squadron one click script/ Ycloud option)
  *Step 3:  Add Knox service
    -  We need pass master secret key at the time of installation.
