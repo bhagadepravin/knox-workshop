@@ -13,7 +13,7 @@ In this workshop we will configure and understand Knox authentication to use wit
  - [LAB 2:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-2)
    -  Install Knox
 
- - [LAB 3:]()
+ - [LAB 3:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-3)
     -  Generating API and UI topologies in Knox CSD
        -  Adding a known service to cdp-proxy
        -  Adding a custom service parameter to a known service (assuming the service is already enabled)
@@ -24,7 +24,7 @@ In this workshop we will configure and understand Knox authentication to use wit
        -  Adding a custom topology in the deployed Knox Gateway
 
 
- - [LAB 4:]() 
+ - [LAB 4:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-4) 
    -  Managing Knox shared providers in Cloudera Manager
       -  SSO authentication provider
 	        *  PAM to LDAP
