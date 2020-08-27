@@ -148,11 +148,8 @@ $ id <username>
  
  # LAB 3:
  
-# Managing Knox shared providers in Cloudera Manager
+# Generating API and UI topologies in Knox
 
-##  SSO authentication provider
-
-	        *  PAM to LDAP
-      -  API Authentication Provider
-	        *  PAM to LDAP
-      -  Saving Aliases
+In CDP DC there is no Cloudbreak who can deploy cdp-proxy and cdp-proxy-api topologies in Knox. To make it easier for end-users we introduced two new CM configurations where these topologies can be managed within CM:
+  -  *Knox Simplified Topology Management - **cdp-proxy***
+  -  *Knox Simplified Topology Management - **cdp-proxy-api***
