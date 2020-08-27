@@ -1,6 +1,6 @@
 # Knox-workshop
 
-In this workshop we will configure and understand Knox authentication to use with Hadoop services in a cluster. For this workshop We need CDP-DC 7.1 cluster with Knox installed.
+In this workshop we will configure and understand Knox authentication to use with Hadoop services in a cluster. For this workshop We need Kerberos enabled CDP-DC 7.X cluster with Knox installed.
 
 ------------------------------------------------------------------------------------------------------------------------------
 
