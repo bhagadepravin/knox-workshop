@@ -51,19 +51,20 @@ In this workshop we will configure and understand Knox authentication to use wit
 
 # LAB 1:
  
- *Step 1:*  Setup CDP-DC cluster with latest version.(Use squadron or Ycloud)
- *Step 2:  Enable Kerberos (using squadron one click script/ Ycloud option)
- *Step 3:  Add Knox service
-   -  We need pass master secret key at the time of installation.
-      -  The master secret is required to start the server. This secret is used to access secured artifacts by the gateway instance. By default, the keystores, trust stores, and credential stores are all protected with the master secret.
-      -  It is encrypted with AES 128 bit encryption and where possible the file permissions are set to only be accessible by the user that the gateway is running as.
+ **Step 1:**  Setup CDP-DC cluster with latest version.(Use squadron or Ycloud)
+ **Step 2:**  Enable Kerberos (using squadron one click script/ Ycloud option)
+ **Step 3:**  Add Knox service **[Follow the documentation]**(https://docs.cloudera.com/cloudera-manager/7.1.1/installation/topics/cdpdc-knox-install.html)
+               -  *We need pass master secret key at the time of installation.*
+               -  *The master secret is required to start the server. This secret is used to access secured artifacts by the gateway instance. By default, the keystores, trust stores, and credential stores are all protected with the master secret.*
+               - *It is encrypted with AES 128 bit encryption and where possible the file permissions are set to only be accessible by the user that the gateway is running as.*
  
 Once Knox is Installed.
+
  -  By default, Knox authentication for default topology are set to PAM.
- -  We need to create a pam user and he should be part of admin group on Knox Host.
+ **Step 4:** We need to create a pam user and he should be part of admin group on all Knox Host.
  
  ```sh
- vi /etc/pam.d/cdp-dc
+$ vi /etc/pam.d/cdp-dc
 
 #%PAM-1.0
 auth sufficient pam_unix.so
@@ -72,7 +73,7 @@ account sufficient pam_unix.so
 account sufficient pam_sss.so
 
 
-vi /etc/pam.d/cdp-dc-remote
+$ vi /etc/pam.d/cdp-dc-remote
 
 #%PAM-1.0
 auth sufficient pam_unix.so
@@ -90,4 +91,4 @@ $ usermod -a -G admin <username>
 $ id <username>
  ```
  
- Use above username and password to login into Knox Homepage UI or Admin page UI.
+ **Step 5:** Use above username and password to login into Knox Homepage UI or Admin page UI.
