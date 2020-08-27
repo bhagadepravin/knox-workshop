@@ -66,7 +66,7 @@ In this workshop we will configure and understand Knox authentication to use wit
    -  Provider configuration to specify the authentication and authorization provider configuration for each topology is also managed within CM
 -  The same trusted proxy model used in CDP public cloud will be leveraged in DC  
 -  Knox itself does nothing to block direct access to UIs and APIs but it is common for clusters to be surrounded by a firewall of one sort or another and access to the internal resources of the cluster to go through Knox. At the end of the day, direct access by external clients is a deployment decision for DC unlike CDP public cloud.
-  -  once inside the cluster, there is direct access to those resources for which you have line of sight
+    -  once inside the cluster, there is direct access to those resources for which you have line of sight
 -  We have Knox Homepage which provide a list of UI and API endpoints. 
 
 # Knox Usecase:
