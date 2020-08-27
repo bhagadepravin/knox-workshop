@@ -71,7 +71,7 @@ In this workshop we will configure and understand Knox authentication to use wit
 
 # Knox Usecase:
 
-I. Fresh 7.x DC Cluster
+I] *Fresh 7.x DC Cluster*
   1. Knox is not installed
   2. Cluster is kerberized
   3. Knox is installed
