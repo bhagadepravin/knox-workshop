@@ -49,7 +49,7 @@ In this workshop we will configure and understand Knox authentication to use wit
       -  Knox SSL issues
 
 
-# LAB 1:
+# LAB 1: Install Knox
  
  **Step 1:**  Setup CDP-DC cluster with latest version.(Use squadron or Ycloud)
  
