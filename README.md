@@ -12,6 +12,9 @@ The Apache Knox Gateway is a system that provides a single point of authenticati
  - Limit the network endpoints (and therefore firewall holes) required to access a Hadoop cluster
  - Hide the internal Hadoop cluster topology from potential attackers
 
+------------------------------------------------------------------------------------------------------------------------------
+
+
  - LAB 1:
    -  Install Knox
 
