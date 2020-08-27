@@ -6,6 +6,8 @@ In this workshop we will configure and understand Knox authentication to use wit
 
 
  - [LAB 1:]()
+   -  Knox Overview
+   -  Knox Usecase
    -  Install Knox
 
  - [LAB 2:]()
@@ -48,8 +50,41 @@ In this workshop we will configure and understand Knox authentication to use wit
       -  Ranger knox plugin sync issues
       -  Knox SSL issues
 
+# LAB 1: 
 
-# LAB 1: Install Knox
+# Knox Overview
+
+-  Knox can only be deployed in secure clusters with kerberos enabled
+-  Knox will need to be explicitly installed - it is NOT installed by default in secure clusters
+-  We will have two topologies
+   -  cdp-proxy for UI access
+   -  cdp-proxy-api for API access
+-  These two topologies are managed in CM
+   -  sets of topology specific checkboxes to include UIs and APIs within the topology and enable CM based discovery of them by Knox
+   -  Provider configuration to specify the authentication and authorization provider configuration for each topology is also managed within CM
+-  The same trusted proxy model used in CDP public cloud will be leveraged in DC  
+-  Knox itself does nothing to block direct access to UIs and APIs but it is common for clusters to be surrounded by a firewall of one sort or another and access to the internal resources of the cluster to go through Knox. At the end of the day, direct access by external clients is a deployment decision for DC unlike CDP public cloud.
+  -  once inside the cluster, there is direct access to those resources for which you have line of sight
+-  We have Knox Homepage which provide a list of UI and API endpoints. 
+
+# Knox Usecase:
+
+I]. USECASE - Fresh 7.1 DC Cluster
+    1. Knox is not installed
+    2. Cluster is kerberized
+    3. Knox is installed
+       - a.  All UIs and APIs are selected for autodiscovery and proxying by Knox by default - admin may opt-out of those unwanted via checkboxes in Knox admin page
+       - b.  Additional config may be required to enable trusted proxy for certain services or put HS2 in HTTP mode, etc.
+       - c.  Any required config changes may require restart of one or more service
+    4. URLs for UIs and APIs will be made available as QuickLinks|Home Page|Client Configs
+    5. Gateway URLs will be able to be used for UI access
+    6. Gateway URLs for API access
+       - a.  HTTP Basic is the default authentication mechanism for proxied API access
+       - b.  by default it authenticates against PAM (again assuming local accounts due to a secure cluster)
+       - c.  Authentication is done at the gateway via the Shiro authentication provider
+       - d.  Upon successful authentication the request is dispatched to the backend service API - propagating the effective user via trusted proxy (kerberos+doAs)
+
+# Install Knox
  
  **Step 1:**  Setup CDP-DC cluster with latest version.(Use squadron or Ycloud)
  
