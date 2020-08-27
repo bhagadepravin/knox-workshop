@@ -5,11 +5,11 @@ In this workshop we will configure and understand Knox authentication to use wit
 ------------------------------------------------------------------------------------------------------------------------------
 
 
- - [LAB 1:]()
+ - [LAB 1:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-1)
    -  Knox Overview
    -  Knox Usecase
 
- - [LAB 2:]()
+ - [LAB 2:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-2)
    -  Install Knox
 
  - [LAB 3:]() 
