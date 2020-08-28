@@ -165,7 +165,9 @@ It is very important that these topologies will be deployed by CM only, and only
 ![Enable/Disable Service Auto-Discovery](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/auto_discovery.png)
 
 As you can see, the Knox CSD comes with some pre-defined service parameters out-of-the-box (e.g. ***CM-API:httpclient.connectionTimeout=5m***), but it does not mean CM-API will be added in ***cdp-proxy*** and/or ***cdp-proxy-api*** topologies. 
+
 If end-users want a known service (that is, the service is an officially supported Knox service with all the required service definition files) to be included in these topologies they need to enable that service on CM UI using the corresponding gateway_auto_discovery_***[cdp-proxy|cdp-proxy-api]_enabled_$service*** checkbox. 
+
 For instance, enabling Atlas API and UI services in cdp-proxy end-users should check ***[gateway_auto_discovery_cdp_proxy_enabled_atlas***[ and ***gateway_auto_discovery_cdp_proxy_enabled_atlas_ui***:
 
 ![auto_discovery_cdp_proxy_enabled_atlas](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/auto_discovery_cdp_proxy_enabled_atlas.png)
