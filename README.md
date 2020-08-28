@@ -343,6 +343,9 @@ Since the only difference between this initial configuration and the one Knox SS
 
 ![sso-api](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/sso-api.png)
 
+https://github.com/bhagadepravin/commands/blob/master/knox-cdp-dc.md
+
+
 ## 3. Saving Aliases
 
 There is a new command available for the Knox Gateway role which allows end-users to save an **alias=password** pair to an arbitrary number of topologies on each host where an instance of the Knox Gateway is installed without the need of running the Knox CLI tool manually.
@@ -363,3 +366,60 @@ Tip: if you need to add a Gateway level alias, please use ***__gateway*** as top
 ![alias-log](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/save%20alias%20cmds.png)
 ![admin-jceks](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/admin-credentials.png)
 ![gateway-jceks](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/gateway-credentials.png)
+
+
+# LAB 5:
+
+# Modifying an existing shared provider
+
+At the time of this document being written, the following shared provider configurations are deployed in CDP DC with Knox OOTB (pam and sso are available only if service auto-discovery is enabled fo Knox Gateway role):
+*admin* (used by the *admin* topology)
+*homepage* (used by the *homepage* topology)
+*knoxsso* (*homepage*, *manager* and *cdp-proxy* topologies are configured to use this one)
+*manager* (used by the *manager* topology)
+*metadata* (used by the *metadata* topology)
+*pam* (used by the *cdp-proxy* topology)
+*pam* (used by the *cdp-proxy-api* topology)
+
+The following changes are allowed in any of these shared providers:
+-  disable a particular provider
+-  modify a particular provider
+-  add a new provider
+
+All of these actions can be done via editing the ***Knox Gateway Advanced Configuration Snippet (Safety Valve) for conf/cdp-resources.xml*** by implementing the following language elements:
+
+
+-  the key of a new entry should be like this: *providerConfigs: providerConfig_1 [,providerConfig_2,..,providerConfig_3]*
+-  the value should contain the following *name/value* pairs separated by a hash (#) character:
+    -  *$role=webappsec|authentication|federation|identity-assertion|authorization|hostmap|ha
+    -  *$role.name=ROLE_NAME (e.g. ShiroProvider)
+    -  *$role.enabled=true|false (optional; defaults to 'true')
+    -  *$role.param.param_1=value_1 (parameters are optional too).   
+    -  *$role.param_N.param1=value_N*
+
+
+**Step 1**. Disabling a provider in an existing provider configuration
+
+In this sample you will see how to disable the **authorization** provider in the **manager** shared provider configuration. This particular authorization provider is set as follows (in its JSON descriptor):
+```bash
+{
+         "role": "authorization",
+         "name": "AclsAuthz",
+         "enabled": "true",
+         "params": {
+            "knox.acl.mode": "OR",
+            "knox.acl": "KNOX_ADMIN_USERS;KNOX_ADMIN_GROUPS;*"
+         }
+      }
+```
+
+To disable it the following should be done:
+  -  1. add the following entry in the above-referenced safety valve:
+     -  name = *providerConfigs:manager*
+     -  value = *role=authorization#authorization.name=AclsAuthz#authorization.enabled=***false***#authorization.param.knox.acl=KNOX_ADMIN_USERS;KNOX_ADMIN_GROUPS;*#authorization.param.knox.acl.mode=OR*
+  -  2.  save your changes
+  -  3.  refresh the cluster
+
+As you can see only the enabled flag was changed.
+
+
