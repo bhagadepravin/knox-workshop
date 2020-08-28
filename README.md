@@ -319,6 +319,15 @@ authentication.param.main.ldapRealm.contextFactory.systemPassword=${ALIAS=knoxLd
 authentication.param.main.ldapRealm.userDnTemplate=uid={0},ou=people,dc=hadoop,dc=apache,dc=org
 ```
 
+```
+# Start Demo LDAP
+get the parcel location from Knox Node:
+
+$ ps aux | grep knox
+$ /opt/cloudera/parcels/CDH-7.2.1-1.cdh7.2.1.p0.4847773/lib/knox/bin/ldap.sh start
+```
+
+
 After you finished editing the properties you have to save the configuration changes. This will make the **Refresh Needed** stale configuration indicator appear. Once the cluster refresh finishes, all topologies that are configured to use Knox SSO will be authenticated by the configured LDAP server.
 
 ![knox-ldap](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/ldap.png)
@@ -398,7 +407,7 @@ All of these actions can be done via editing the ***Knox Gateway Advanced Config
     -  *$role.param_N.param1=value_N*
 
 
-**Step 1**. Disabling a provider in an existing provider configuration
+**Step 1** Disabling a provider in an existing provider configuration
 
 In this sample you will see how to disable the **authorization** provider in the **manager** shared provider configuration. This particular authorization provider is set as follows (in its JSON descriptor):
 ```bash
@@ -421,5 +430,49 @@ To disable it the following should be done:
   -  3.  refresh the cluster
 
 As you can see only the enabled flag was changed.
+
+![manager1](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/manager1.png)
+![manager2](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/manager2.png)
+![manager3](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/manager3.png)
+
+
+**Step 2**.  Modifying a provider in an existing provider configuration
+
+In this sample you will see how to modify the previously disabled authorization provider in the manager shared provider configuration.
+The steps are the same as described in the section before but the value of the safety valve entry is different:
+
+*role=authorization#authorization.name=AclsAuthz#authorization.enabled=false#authorization.param.knox.acl=***myTestUser***;KNOX_ADMIN_GROUPS;*#authorization.param.knox.acl.mode=OR*
+
+
+With this change you are authorizing a user called **myTestUser** to login and execute administrative actions on the Knox Admin UI.
+
+
+**Step 3**.  Add a new provider in an existing provider configuration
+
+As of now, the **manager** shared provider configuration does not have the **HA** provider set.
+In this sample you will see how to add a new **HA** provider (this time only the **ATLAS** service will be configured for high availability) in the **manager** shared provider configuration with keeping all the changes from the previous sections.
+
+As you might figured it out, the steps are the same again except for the value in the safety valve, which has to be set to this one:
+
+*role=authorization#authorization.name=AclsAuthz#authorization.enabled=false#authorization.param.knox.acl=myTestUser;KNOX_ADMIN_GROUPS;*#authorization.param.knox.acl.mode=OR#***role=ha#ha.name=HaProvider#ha.param.ATLAS=enabled=true;maxFailoverAttempts=3;failoverSleep=1000;maxRetryAttempts=300;retrySleep=1000****
+
+
+**Step 4**. Adding a new shared provider configuration
+
+It is possible that you add a brand new shared provider configuration too. In this sample you will see how to create **testProviders** with the following providers set:
+
+-  *authentication: ShiroProvider / PAM*
+-  *identity-assertion: Default*
+-  *authorization: Ranger (XASecurePDPKnox)*
+
+The following should be added in the :
+  -  1.  add the following entry in the above-referenced safety valve:
+         -  name  = *providerConfigs:testProviders*
+         -  value =  *role=authentication#authentication.name=ShiroProvider#authentication.param.main.pamRealm=org.apache.knox.gateway.shirorealm.KnoxPamRealm#authentication.param.main.pamRealm.service=login#role=identity-assertion#identity-assertion.name=Default#role=authorization#authorization.name=XASecurePDPKnox*
+  -  2.  save your changes
+  -  3.  refresh the cluster
+
+Since all providers you add via this mechanism are **enabled** by default I shortened the value field by omitting the enabled flag.
+
 
 
