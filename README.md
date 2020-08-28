@@ -482,4 +482,7 @@ curl -ik -u knoxui:knoxui "https://KNOX-HOSTNAME:8443/gateway/admin/api/v1/provi
 ![testProviders2](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/test-shiroprovider.png)
 
 
+* We can also use Knox Admin-UI to create shared provider:
+https://KNOX-HOSTNAME:8443/gateway/manager/admin-ui/
+
 
