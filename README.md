@@ -407,7 +407,7 @@ All of these actions can be done via editing the ***Knox Gateway Advanced Config
     -  *$role.param_N.param1=value_N*
 
 
-**Step 1** Disabling a provider in an existing provider configuration
+## **Step 1** Disabling a provider in an existing provider configuration
 
 In this sample you will see how to disable the **authorization** provider in the **manager** shared provider configuration. This particular authorization provider is set as follows (in its JSON descriptor):
 ```bash
@@ -436,7 +436,7 @@ As you can see only the enabled flag was changed.
 ![manager3](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/manager3.png)
 
 
-**Step 2**.  Modifying a provider in an existing provider configuration
+## **Step 2**.  Modifying a provider in an existing provider configuration
 
 In this sample you will see how to modify the previously disabled authorization provider in the manager shared provider configuration.
 The steps are the same as described in the section before but the value of the safety valve entry is different:
@@ -447,7 +447,7 @@ The steps are the same as described in the section before but the value of the s
 With this change you are authorizing a user called **myTestUser** to login and execute administrative actions on the Knox Admin UI.
 
 
-**Step 3**.  Add a new provider in an existing provider configuration
+## **Step 3**.  Add a new provider in an existing provider configuration
 
 As of now, the **manager** shared provider configuration does not have the **HA** provider set.
 In this sample you will see how to add a new **HA** provider (this time only the **ATLAS** service will be configured for high availability) in the **manager** shared provider configuration with keeping all the changes from the previous sections.
@@ -457,7 +457,7 @@ As you might figured it out, the steps are the same again except for the value i
 *role=authorization#authorization.name=AclsAuthz#authorization.enabled=false#authorization.param.knox.acl=myTestUser;KNOX_ADMIN_GROUPS;*#authorization.param.knox.acl.mode=OR#***role=ha#ha.name=HaProvider#ha.param.ATLAS=enabled=true;maxFailoverAttempts=3;failoverSleep=1000;maxRetryAttempts=300;retrySleep=1000****
 
 
-**Step 4**. Adding a new shared provider configuration
+## **Step 4**. Adding a new shared provider configuration
 
 It is possible that you add a brand new shared provider configuration too. In this sample you will see how to create **testProviders** with the following providers set:
 
