@@ -32,7 +32,7 @@ In this workshop we will configure and understand Knox authentication to use wit
 	        *  PAM to LDAP
       -  Saving Aliases
 
- - [LAB 5:]() 
+ - [LAB 5:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-5) 
    -  Modifying an existing shared provider
       -  Disabling a provider in an existing provider configuration
       -  Modifying a provider in an existing provider configuration
