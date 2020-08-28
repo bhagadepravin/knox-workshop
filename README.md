@@ -361,5 +361,5 @@ Tip: if you need to add a Gateway level alias, please use ***__gateway*** as top
 ![alias-action](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/action.png)
 ![save-alias(https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/save-alias.png)
 ![alias-log](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/save%20alias%20cmds.png)
-![admin-jceks(https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/admin-credentials.png)
-![gateway-jceks(https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/gateway-credentials.png)
+![admin-jceks](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/admin-credentials.png)
+![gateway-jceks](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/gateway-credentials.png)
