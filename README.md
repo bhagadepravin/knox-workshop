@@ -323,3 +323,43 @@ After you finished editing the properties you have to save the configuration cha
 
 ![knox-ldap](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/ldap.png)
 
+
+## 2. API Authentication Provider
+
+Similarly to the previous point, a new Knox configuration has been added, called ***,Knox Simplified Topology Management - API Authentication Provider***, with the following initial configuration:
+
+```
+role=authentication
+authentication.name=ShiroProvider
+authentication.param.sessionTimeout=30
+authentication.param.urls./**=authcBasic
+authentication.param.main.pamRealm=org.apache.knox.gateway.shirorealm.KnoxPamRealm
+authentication.param.main.pamRealm.service=login
+```
+
+Every change here goes directly into **admin**, **metadata** and **cdp-proxy-api** topologies.
+Since the only difference between this initial configuration and the one Knox SSO uses is two additional parameters **(redirectToUrl and restrictedCookies)** I would not like to repeat the same steps on how to change PAM authentication to LDAP as they are exactly the same.
+
+
+![sso-api](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/sso-api.png)
+
+## 3. Saving Aliases
+
+There is a new command available for the Knox Gateway role which allows end-users to save an **alias=password** pair to an arbitrary number of topologies on each host where an instance of the Knox Gateway is installed without the need of running the Knox CLI tool manually.
+
+A new password-type input field is added, called *save_alias_command_input_password*. The format of an entry in this input field should be:
+***topology_name_1[:topology_name_2:...:topology_name_N].alias_name=password***
+
+Sample: **cdp-proxy-api:admin:metadata.knoxLdapSystemPassword=guest-password**
+
+After the end-user entered a meaningful and valid value and saved the configuration changes he/she can run the command from Knox’s action list: **Actions/Save Alias**
+
+Tip: if you need to add a Gateway level alias, please use ***__gateway*** as topology  name. For instance: ***__gateway.knoxLdapSystemPassword=admin-password***
+
+![save-alias](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/save%20alias.png)
+![alias-input](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/save%20alias%20input.png)
+![alias-action](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/action.png)
+![save-alias(https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/save-alias.png)
+![alias-log](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/save%20alias%20cmds.png)
+![admin-jceks(https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/admin-credentials.png)
+![gateway-jceks(https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/gateway-credentials.png)
