@@ -299,6 +299,9 @@ Every change here goes directly into **knoxsso** topology that affects **manager
 
 In the following sample you will see how to change the PAM authentication *(which comes OOTB with Knox)* to LDAP authentication. It is as simple as replacing the PAM related configuration entries in the above ShiroProvider to LDAP related properties (e.g. with demo LDAP server configuration):
 
+![knox-sso](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/knoxsso.png)
+
+
 ```bash
 role=authentication
 authentication.name=ShiroProvider
@@ -319,3 +322,4 @@ authentication.param.main.ldapRealm.userDnTemplate=uid={0},ou=people,dc=hadoop,d
 After you finished editing the properties you have to save the configuration changes. This will make the **Refresh Needed** stale configuration indicator appear. Once the cluster refresh finishes, all topologies that are configured to use Knox SSO will be authenticated by the configured LDAP server.
 
 ![knox-ldap](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/ldap.png)
+
