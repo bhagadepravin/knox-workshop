@@ -475,7 +475,7 @@ The following should be added in the :
 Since all providers you add via this mechanism are **enabled** by default I shortened the value field by omitting the enabled flag.
 
 ```bash
-curl -ik -u knoxui:knoxui "https://pbhagade-boo-1.pbhagade-boo.root.hwx.site:8443/gateway/admin/api/v1/providerconfig/testProviders"
+curl -ik -u knoxui:knoxui "https://KNOX-HOSTNAME:8443/gateway/admin/api/v1/providerconfig/testProviders"
 ```
 
 ![testProviders](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/testProviders.png)
