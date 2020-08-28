@@ -416,7 +416,7 @@ In this sample you will see how to disable the **authorization** provider in the
 To disable it the following should be done:
   -  1. add the following entry in the above-referenced safety valve:
      -  name = *providerConfigs:manager*
-     -  value = *role=authorization#authorization.name=AclsAuthz#authorization.enabled=***false***#authorization.param.knox.acl=KNOX_ADMIN_USERS;KNOX_ADMIN_GROUPS;*#authorization.param.knox.acl.mode=OR*
+     -  value = *role=authorization#authorization.name=AclsAuthz#authorization.enabled=**false**#authorization.param.knox.acl=KNOX_ADMIN_USERS;KNOX_ADMIN_GROUPS;*#authorization.param.knox.acl.mode=OR*
   -  2.  save your changes
   -  3.  refresh the cluster
 
