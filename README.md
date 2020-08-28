@@ -391,10 +391,10 @@ All of these actions can be done via editing the ***Knox Gateway Advanced Config
 
 -  the key of a new entry should be like this: *providerConfigs: providerConfig_1 [,providerConfig_2,..,providerConfig_3]*
 -  the value should contain the following *name/value* pairs separated by a hash (#) character:
-    -  *$role=webappsec|authentication|federation|identity-assertion|authorization|hostmap|ha
-    -  *$role.name=ROLE_NAME (e.g. ShiroProvider)
-    -  *$role.enabled=true|false (optional; defaults to 'true')
-    -  *$role.param.param_1=value_1 (parameters are optional too).   
+    -  $*role=webappsec|authentication|federation|identity-assertion|authorization|hostmap|ha*
+    -  *$role.name=ROLE_NAME (e.g. ShiroProvider)*
+    -  *$role.enabled=true|false (optional; defaults to 'true')*
+    -  *$role.param.param_1=value_1 (parameters are optional too).*   
     -  *$role.param_N.param1=value_N*
 
 
