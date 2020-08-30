@@ -39,17 +39,15 @@ In this workshop we will configure and understand Knox authentication to use wit
       -  Add a new provider in an existing provider configuration
       -  Adding a new shared provider configuration
 
- - [LAB 6:]() 
+ - [LAB 6:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-6) 
    -  Replace knox ssl certificate
    -  Knox SSO with keycloak
 
- - [LAB 7:]() 
+ - [LAB 7:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-7-troubleshooting) 
    -  Troubleshooting
       -  How authentication works and its logging 
       -  Error codes
       -  How Knoxsso works, and its logging
-      -  Ranger knox plugin sync issues
-      -  Knox SSL issues
 
 # LAB 1: 
 
@@ -525,41 +523,40 @@ Login to the admin console
 Go to the `Keycloak Admin Console` http://hostname:8080/auth/admin and login with the username and password you created earlier.
 
 Ref: https://www.keycloak.org/getting-started/getting-started-docker
-```
-1.  Create a realm
-2.  Create a user
-```
+
+`Create a new realm`
+
 
 #### Keycloak - SAML :
 
--  Create SAML client in keycloak.
+-  1.  Create SAML client in keycloak.
 
--  Sample config
+-  2.  Sample config
 
 ![keycl1](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/keycload%20cleint1.png)
 ![keycl2](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/keycload%20client2.png)
 
--  Create user account under the realm and set password.
+-  3.  Create user account under the realm and set password.
 
--  Get the IDP SSO metadata using keycloak url :
+-  4.  Get the IDP SSO metadata using keycloak url :
 
 ```
 # curl -ik https://keycloak-FQDN:port/auth/realms/KeycloakRealmName/protocol/saml/descriptor -o idp.xml
 
 curl -ik -u admin:admin http://pbhagade-boo-1.pbhagade-boo.root.hwx.site:8080/auth/realms/workshop/protocol/saml/descriptor  -o idp.xml
 ```
--  Copy idp.xml file to the knox host.
+-  5.  Copy idp.xml file to the knox host.
 
--  Configure knoxsso topology and set the identityProviderMetadataPath
+-  6.  Configure knoxsso topology and set the identityProviderMetadataPath
 ```
            <param>
               <name>saml.identityProviderMetadataPath</name>
               <value>/etc/knox/conf/idp.xml</value>
             </param>
 ```
--  Setup any service for SSO authentication and verify the SSO redirection and authentication.
+-  7.  Setup any service for SSO authentication and verify the SSO redirection and authentication.
 
--  Sample config knoxsso.xml_saml_keycloak
+-  8.  Sample config knoxsso.xml_saml_keycloak
 
 
 (Changes required for properties pac4j.callbackUrl, saml.identityProviderMetadataPath,saml.serviceProviderMetadataPath and saml.serviceProviderEntityId)
