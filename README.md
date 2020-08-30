@@ -608,16 +608,16 @@ Below describes what should happen:
 
 ### Troubleshooting
 
-##### a.  Browser doesn’t redirect to KnoxSSO
+#### a.  Browser doesn’t redirect to KnoxSSO
   -  Misconfiguration with Service A
     -  Knox SSO is not configured for Service A
       -  Missing/misconfigured jetty servlet
 
-##### b.  No KnoxSSO login prompt
+#### b.  No KnoxSSO login prompt
 -  Either Knox SSO is not running at that URL or there is an issue with Knox SSO
 -  Check Knox `gateway.log` and backend logs (like LDAP, Okta)
 
-##### c.  KnoxSSO redirect to Service A failure
+#### c.  KnoxSSO redirect to Service A failure
 
 -  Knox SSO has a few checks to make sure it is not an open redirect.
     -  The `redirecting.jsp` page will say there is an error.
