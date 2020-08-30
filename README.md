@@ -504,6 +504,7 @@ There are two types of providers supported in Knox for establishing a user’s i
 2.  Federation Providers
 
 **Authentication providers** directly accept a user’s credentials and validates them against some particular user store. 
+
 **Federation providers**, on the other hand, validate a token that has been issued for the user by a trusted Identity Provider (IdP).
 
 The current release of Knox ships with an authentication provider based on the Apache Shiro project and is initially configured for BASIC authentication against an LDAP store. This has been specifically tested against Apache Directory Server and Active Directory.
@@ -554,7 +555,7 @@ curl -iku knoxui:knoxui https://localhost:8443/gateway/cdp-proxy-api/webhdfs/v1/
 # 2. Logging:
 
 
-If necessary you can enable additional logging by editing the **Knox Gateway Logging Threshold**. Changing the **Knox Gateway Logging Threshold**
+If necessary you can enable additional logging by editing the **Knox Gateway Logging Threshold**. Changing the `Knox Gateway Logging Threshold`
  value from **ERROR** to **DEBUG** will generate a large amount of debug logging. A number of useful, more fine loggers are also provided in the file.
 
 ![logpath](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/Logging.png)
@@ -593,8 +594,10 @@ tail -f /var/log/knox/gateway/gateway.log /var/log/knox/gateway/gateway-audit.lo
 
 # 4. How KnoxSSO works and its Debugging
 
+* Expected Behavior
+
 Below describes what should happen:
-1.  Service A is configured to use KnoxSSO (knox sso url, public key, cookie name)
+1.  Service A is configured to use KnoxSSO (`knox sso url, public key, cookie name`)
 2.  Try to access http://serviceA.abc.com
 3.  Browser redirect from serviceA.abc.com to knoxsso URL
 4.  KnoxSSO prompts for login information or redirects to backend that prompts for login (ie: okta)
@@ -603,5 +606,47 @@ Below describes what should happen:
 7.  Service A tries to read `hadoop-jwt` cookie and verifies with KnoxSSO public key
 8.  If Service A is able to read `hadoop-jwt` cookie, then Service A says you are logged in
 
+* Troubleshooting
 
+a.  Browser doesn’t redirect to KnoxSSO
+  -  Misconfiguration with Service A
+    -  Knox SSO is not configured for Service A
+      -  Missing/misconfigured jetty servlet
+
+b.  No KnoxSSO login prompt
+-  Either Knox SSO is not running at that URL or there is an issue with Knox SSO
+-  Check Knox `gateway.log` and backend logs (like LDAP, Okta)
+
+c.  KnoxSSO redirect to Service A failure
+
+-  Knox SSO has a few checks to make sure it is not an open redirect.
+    -  The `redirecting.jsp` page will say there is an error.
+-  Check `gateway.log` and it will have a message about configuring the whitelist
+-  Check that `gateway-site.xml` `gateway.dispatch.whitelist.services` contains `knoxauth`
+    -  BUG-114475 - Ambari <2.7.3, `knoxauth` is not set in `gateway.dispatch.whitelist.services`
+-  `gateway-site.xml` has `gateway.dispatch.whitelist` which is the default redirect whitelist config
+    -  KNOX-1577 details some issues with default whitelist and not escaping the `/` parameters
+    -  Requires `gateway.dispatch.whitelist.services` to be set correctly
+-  `knoxsso.redirect.whitelist.regex` is a topology level config that overrides the redirect whitelist setting in `gateway-site.xml`
+    -  `knoxsso.redirect.whitelist.regex` is set in the KnoxSSO topology
+
+If you think you set the whitelist correctly and its still not working, checking Knox `gateway.log` since there will be a message about the host it tried to redirect to and the whitelist that didn’t match. This should give clues as to what the problem is.
+
+d.  Service A can't read the `hadoop-jwt` cookie
+
+-  Cookie could be set to secure but Service A is not secure (not HTTPS)
+    -  `knoxsso.cookie.secure.only` in KnoxSSO topology
+-  The cookie could have the wrong domain.
+    -  Browser will not present the cookie to Service A if the domain doesn’t match
+  -  Both Knox and Service A need to share a common part of the domain
+    -  `knoxsso.cookie.domain.suffix` in KnoxSSO topology
+-  Service A is looking for a different cookie name than `hadoop-jwt`
+Either of the following:
+Configure Service A to look for `hadoop-jwt` cookie
+`knoxsso.cookie.name` in KnoxSSO topology
+Service A can’t verify the `hadoop-jwt` cookie
+check the public key configured in Service A matches the Knox SSO public key expected
+Check the logs for Service A about not able to verify cookie
+
+In most cases, if any of the above are a problem, you will end up in an “endless” redirect loop since Service A will not think you are authenticated but Knox SSO is working and sending you back to Service A
 
