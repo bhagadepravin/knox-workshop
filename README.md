@@ -608,16 +608,16 @@ Below describes what should happen:
 
 * Troubleshooting
 
-a.  Browser doesn’t redirect to KnoxSSO
+### a.  Browser doesn’t redirect to KnoxSSO
   -  Misconfiguration with Service A
     -  Knox SSO is not configured for Service A
       -  Missing/misconfigured jetty servlet
 
-b.  No KnoxSSO login prompt
+### b.  No KnoxSSO login prompt
 -  Either Knox SSO is not running at that URL or there is an issue with Knox SSO
 -  Check Knox `gateway.log` and backend logs (like LDAP, Okta)
 
-c.  KnoxSSO redirect to Service A failure
+### c.  KnoxSSO redirect to Service A failure
 
 -  Knox SSO has a few checks to make sure it is not an open redirect.
     -  The `redirecting.jsp` page will say there is an error.
@@ -632,7 +632,7 @@ c.  KnoxSSO redirect to Service A failure
 
 If you think you set the whitelist correctly and its still not working, checking Knox `gateway.log` since there will be a message about the host it tried to redirect to and the whitelist that didn’t match. This should give clues as to what the problem is.
 
-d.  Service A can't read the `hadoop-jwt` cookie
+### d.  Service A can't read the `hadoop-jwt` cookie
 
 -  Cookie could be set to secure but Service A is not secure (not HTTPS)
     -  `knoxsso.cookie.secure.only` in KnoxSSO topology
@@ -641,12 +641,25 @@ d.  Service A can't read the `hadoop-jwt` cookie
   -  Both Knox and Service A need to share a common part of the domain
     -  `knoxsso.cookie.domain.suffix` in KnoxSSO topology
 -  Service A is looking for a different cookie name than `hadoop-jwt`
-Either of the following:
-Configure Service A to look for `hadoop-jwt` cookie
-`knoxsso.cookie.name` in KnoxSSO topology
-Service A can’t verify the `hadoop-jwt` cookie
-check the public key configured in Service A matches the Knox SSO public key expected
-Check the logs for Service A about not able to verify cookie
+    -  Either of the following:
+       -  Configure Service A to look for `hadoop-jwt` cookie
+       -  `knoxsso.cookie.name` in KnoxSSO topology
+-  Service A can’t verify the `hadoop-jwt` cookie
+    -  check the public key configured in Service A matches the Knox SSO public key expected
+    -  Check the logs for Service A about not able to verify cookie
 
 In most cases, if any of the above are a problem, you will end up in an “endless” redirect loop since Service A will not think you are authenticated but Knox SSO is working and sending you back to Service A
+
+### e. Service A doesn't log you in
+
+-  Service A may not be able to confirm you are a user
+    -  Check Service A logs about user not found
+-  Make sure that user you tried to log in with is configured for access to Service A
+If this is a problem, you will end up in a redirect loop potentially as well.
+
+
+##### References
+https://knox.apache.org/books/knox-1-2-0/user-guide.html#KnoxSSO+Setup+and+Configuration
+https://docs.hortonworks.com/HDPDocuments/HDP3/HDP-3.1.0/configuring-knox-sso/content/knox_sso.html
+https://knox.apache.org/books/knox-1-2-0/dev-guide.html#KnoxSSO+Integration
 
