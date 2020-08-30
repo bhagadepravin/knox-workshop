@@ -632,7 +632,7 @@ Below describes what should happen:
 
 If you think you set the whitelist correctly and its still not working, checking Knox `gateway.log` since there will be a message about the host it tried to redirect to and the whitelist that didn’t match. This should give clues as to what the problem is.
 
-##### d.  Service A can't read the `hadoop-jwt` cookie
+#### d.  Service A can't read the `hadoop-jwt` cookie
 
 -  Cookie could be set to secure but Service A is not secure (not HTTPS)
     -  `knoxsso.cookie.secure.only` in KnoxSSO topology
@@ -650,7 +650,7 @@ If you think you set the whitelist correctly and its still not working, checking
 
 In most cases, if any of the above are a problem, you will end up in an “endless” redirect loop since Service A will not think you are authenticated but Knox SSO is working and sending you back to Service A
 
-##### e. Service A doesn't log you in
+#### e. Service A doesn't log you in
 
 -  Service A may not be able to confirm you are a user
     -  Check Service A logs about user not found
