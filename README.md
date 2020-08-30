@@ -488,6 +488,86 @@ curl -ik -u knoxui:knoxui "https://KNOX-HOSTNAME:8443/gateway/admin/api/v1/provi
 https://KNOX-HOSTNAME:8443/gateway/manager/admin-ui/
 
 
+# LAB 6:
+
+
+# Knox SSO with keycloak
+
+Before you start
+Make sure you have Docker installed.
+
+```
+yum install yum-utils device-mapper-persistent-data lvm2 -y
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce -y
+# or
+# yum install docker -y
+
+systemctl start docker
+systemctl status docker
+systemctl enable docker
+```
+
+Start Keycloak
+From a terminal start Keycloak with the following command:
+```
+docker run -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:11.0.1 &
+```
+Wait until you see 
+
+```
+12:40:52,608 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0051: Admin console listening on http://127.0.0.1:9990
+```
+
+This will start Keycloak exposed on the local port 8080. It will also create an initial admin user with `username admin` and `password admin`.
+
+Login to the admin console
+Go to the `Keycloak Admin Console` http://hostname:8080/auth/admin and login with the username and password you created earlier.
+
+Ref: https://www.keycloak.org/getting-started/getting-started-docker
+```
+1.  Create a realm
+2.  Create a user
+```
+
+#### Keycloak - SAML :
+
+-  Create SAML client in keycloak.
+
+-  Sample config
+
+![keycl1](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/keycload%20cleint1.png)
+![keycl2](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/keycload%20client2.png)
+
+-  Create user account under the realm and set password.
+
+-  Get the IDP SSO metadata using keycloak url :
+
+```
+# curl -ik https://keycloak-FQDN:port/auth/realms/KeycloakRealmName/protocol/saml/descriptor -o idp.xml
+
+curl -ik -u admin:admin http://pbhagade-boo-1.pbhagade-boo.root.hwx.site:8080/auth/realms/workshop/protocol/saml/descriptor  -o idp.xml
+```
+-  Copy idp.xml file to the knox host.
+
+-  Configure knoxsso topology and set the identityProviderMetadataPath
+```
+           <param>
+              <name>saml.identityProviderMetadataPath</name>
+              <value>/etc/knox/conf/idp.xml</value>
+            </param>
+```
+-  Setup any service for SSO authentication and verify the SSO redirection and authentication.
+
+-  Sample config knoxsso.xml_saml_keycloak
+
+
+(Changes required for properties pac4j.callbackUrl, saml.identityProviderMetadataPath,saml.serviceProviderMetadataPath and saml.serviceProviderEntityId)
+
+
+
+
+
 # LAB 7: Troubleshooting
 
 ##### Finding Logs:
@@ -662,4 +742,5 @@ If this is a problem, you will end up in a redirect loop potentially as well.
 https://knox.apache.org/books/knox-1-2-0/user-guide.html#KnoxSSO+Setup+and+Configuration
 https://docs.hortonworks.com/HDPDocuments/HDP3/HDP-3.1.0/configuring-knox-sso/content/knox_sso.html
 https://knox.apache.org/books/knox-1-2-0/dev-guide.html#KnoxSSO+Integration
+
 
