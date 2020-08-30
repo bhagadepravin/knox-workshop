@@ -594,7 +594,7 @@ tail -f /var/log/knox/gateway/gateway.log /var/log/knox/gateway/gateway-audit.lo
 
 # 4. How KnoxSSO works and its Debugging
 
-* Expected Behavior
+### Expected Behavior
 
 Below describes what should happen:
 1.  Service A is configured to use KnoxSSO (`knox sso url, public key, cookie name`)
@@ -606,18 +606,18 @@ Below describes what should happen:
 7.  Service A tries to read `hadoop-jwt` cookie and verifies with KnoxSSO public key
 8.  If Service A is able to read `hadoop-jwt` cookie, then Service A says you are logged in
 
-* Troubleshooting
+### Troubleshooting
 
-### a.  Browser doesn’t redirect to KnoxSSO
+##### a.  Browser doesn’t redirect to KnoxSSO
   -  Misconfiguration with Service A
     -  Knox SSO is not configured for Service A
       -  Missing/misconfigured jetty servlet
 
-### b.  No KnoxSSO login prompt
+##### b.  No KnoxSSO login prompt
 -  Either Knox SSO is not running at that URL or there is an issue with Knox SSO
 -  Check Knox `gateway.log` and backend logs (like LDAP, Okta)
 
-### c.  KnoxSSO redirect to Service A failure
+##### c.  KnoxSSO redirect to Service A failure
 
 -  Knox SSO has a few checks to make sure it is not an open redirect.
     -  The `redirecting.jsp` page will say there is an error.
@@ -632,7 +632,7 @@ Below describes what should happen:
 
 If you think you set the whitelist correctly and its still not working, checking Knox `gateway.log` since there will be a message about the host it tried to redirect to and the whitelist that didn’t match. This should give clues as to what the problem is.
 
-### d.  Service A can't read the `hadoop-jwt` cookie
+##### d.  Service A can't read the `hadoop-jwt` cookie
 
 -  Cookie could be set to secure but Service A is not secure (not HTTPS)
     -  `knoxsso.cookie.secure.only` in KnoxSSO topology
@@ -650,7 +650,7 @@ If you think you set the whitelist correctly and its still not working, checking
 
 In most cases, if any of the above are a problem, you will end up in an “endless” redirect loop since Service A will not think you are authenticated but Knox SSO is working and sending you back to Service A
 
-### e. Service A doesn't log you in
+##### e. Service A doesn't log you in
 
 -  Service A may not be able to confirm you are a user
     -  Check Service A logs about user not found
