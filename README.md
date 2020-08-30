@@ -301,6 +301,8 @@ In the following sample you will see how to change the PAM authentication *(whic
 
 ![knox-sso](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/knoxsso.png)
 
+Knox first authenticates the end user, and then adds that user as a query parameter to the request (?doAs=USERNAME) to the backend. The backend then checks that the request is trusted (request IP and request user) and extracts the end user (USERNAME) from the query parameter. The backend service then does whatever is necessary as that backend user. Knox and the proxied services authenticate to each other via Kerberos.
+
 
 ```bash
 role=authentication
@@ -484,5 +486,122 @@ curl -ik -u knoxui:knoxui "https://KNOX-HOSTNAME:8443/gateway/admin/api/v1/provi
 
 * We can also use Knox Admin-UI to create shared provider:
 https://KNOX-HOSTNAME:8443/gateway/manager/admin-ui/
+
+
+# LAB 7: Troubleshooting
+
+##### Finding Logs:
+When things aren’t working the first thing you need to do is examine the diagnostic logs. Depending upon how you are running the gateway these diagnostic logs will be output to different locations.
+
+# How authentication works and its logging
+
+Apache Knox Gateway is a reverse proxy that authenticates and provides a single access point for REST and HTTP interactions with the CDP Data Center clusters.
+
+# 1.  Authentication 
+There are two types of providers supported in Knox for establishing a user’s identity:
+
+1.  Authentication Providers
+2.  Federation Providers
+
+**Authentication providers** directly accept a user’s credentials and validates them against some particular user store. 
+**Federation providers**, on the other hand, validate a token that has been issued for the user by a trusted Identity Provider (IdP).
+
+The current release of Knox ships with an authentication provider based on the Apache Shiro project and is initially configured for BASIC authentication against an LDAP store. This has been specifically tested against Apache Directory Server and Active Directory.
+
+![authentication](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/authentication.png)
+
+### General Configuration for Shiro Provider
+
+```
+<gateway>
+    <provider>
+        <role>authentication</role>
+        <name>ShiroProvider</name>
+        <enabled>true</enabled>
+        <param>
+            <name>main.ldapRealm</name>
+            <value>org.apache.shiro.realm.ldap.JndiLdapRealm</value>
+        </param>
+        <param>
+            <name>main.ldapRealm.userDnTemplate</name>
+            <value>uid={0},ou=people,dc=hadoop,dc=apache,dc=org</value>
+        </param>
+        <param>
+            <name>main.ldapRealm.contextFactory.url</name>
+            <value>ldap://localhost:33389</value>
+        </param>
+        <param>
+            <name>main.ldapRealm.contextFactory.authenticationMechanism</name>
+            <value>simple</value>
+        </param>
+        <param>
+            <name>urls./**</name>
+            <value>authcBasic</value>
+        </param>
+    </provider>
+```
+
+### Example provider configuration to use advanced LDAP authentication
+https://knox.apache.org/books/knox-1-1-0/user-guide.html#Example+provider+configuration+to+use+advanced+LDAP+authentication
+
+## Step: 1
+Test sample WEBHDFS curl cmd:
+
+```
+curl -iku knoxui:knoxui https://localhost:8443/gateway/cdp-proxy-api/webhdfs/v1/?op=LISTSTATUS
+```
+
+# 2. Logging:
+
+
+If necessary you can enable additional logging by editing the **Knox Gateway Logging Threshold**. Changing the **Knox Gateway Logging Threshold**
+ value from **ERROR** to **DEBUG** will generate a large amount of debug logging. A number of useful, more fine loggers are also provided in the file.
+
+![logpath](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/Logging.png)
+
+## Step: 1
+
+Test sample WEBHDFS curl cmd and observe the logging with INFO later with DEBUG enabled.
+
+```
+curl -iku knoxui:knoxui https://localhost:8443/gateway/cdp-proxy-api/webhdfs/v1/?op=LISTSTATUS
+
+tail -f /var/log/knox/gateway/gateway.log /var/log/knox/gateway/gateway-audit.log
+```
+![sucess](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/logging%20success.png)
+
+## Step: 2
+
+Test sample WEBHDFS curl cmd with incorrect password and observe the logging.
+
+```
+curl -iku knoxui:knoxui https://localhost:8443/gateway/cdp-proxy-api/webhdfs/v1/?op=LISTSTATUS
+
+tail -f /var/log/knox/gateway/gateway.log /var/log/knox/gateway/gateway-audit.log
+```
+![authentication-failure](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/authentication%20failure.png)
+
+
+# 3. Error codes
+
+-  401 (authentication error)
+-  403 (forbidded error)
+-  404 (NPE,incorrect configs)
+-  413 (Header issue)
+-  500 (server side issue)
+
+
+# 4. How KnoxSSO works and its Debugging
+
+Below describes what should happen:
+1.  Service A is configured to use KnoxSSO (knox sso url, public key, cookie name)
+2.  Try to access http://serviceA.abc.com
+3.  Browser redirect from serviceA.abc.com to knoxsso URL
+4.  KnoxSSO prompts for login information or redirects to backend that prompts for login (ie: okta)
+5.  If successful login, Knox creates a signed JWT `hadoop-jwt` cookie (signed with Knox private key)
+6.  KnoxSSO tries to redirect back to Service A via browser
+7.  Service A tries to read `hadoop-jwt` cookie and verifies with KnoxSSO public key
+8.  If Service A is able to read `hadoop-jwt` cookie, then Service A says you are logged in
+
 
 
