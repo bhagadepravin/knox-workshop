@@ -509,7 +509,7 @@ systemctl enable docker
 Start Keycloak
 From a terminal start Keycloak with the following command:
 ```
-docker run -p 8080:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:11.0.1 &
+$ docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e DB_VENDOR=H2 -p 8080:8080 --name keycloak jboss/keycloak
 ```
 Wait until you see 
 
@@ -523,6 +523,11 @@ Login to the admin console
 Go to the `Keycloak Admin Console` http://hostname:8080/auth/admin and login with the username and password you created earlier.
 
 Ref: https://www.keycloak.org/getting-started/getting-started-docker
+
+```
+Crtl+C
+$ docker start keycloak
+```
 
 `Create a new realm`
 
@@ -546,20 +551,114 @@ Ref: https://www.keycloak.org/getting-started/getting-started-docker
 curl -ik -u admin:admin http://pbhagade-boo-1.pbhagade-boo.root.hwx.site:8080/auth/realms/workshop/protocol/saml/descriptor  -o idp.xml
 ```
 -  5.  Copy idp.xml file to the knox host.
+`Remove HTTP header from idp.xml file`
 
--  6.  Configure knoxsso topology and set the identityProviderMetadataPath
+-  6.  With the newest version of CM a new Knox configuration has been added, called ***Knox Simplified Topology Management - SSO Authentication Provider***, with the following initial configuration:
+
+**Tip:**
+You can also use Knox Admin UI or manually create custom saml topology.
+
+```bash
+role=authentication
+authentication.name=ShiroProvider
+authentication.enabled=false
+role=federation
+federation.name=pac4j
+federation.param.clientName=SAML2Client
+federation.param.pac4j.callbackUrl=https://pbhagade-boo-1.pbhagade-boo.root.hwx.site:8443/gateway/knosso/api/v1/websso
+federation.param.saml.identityProviderMetadataPath=/etc/knox/conf/idp.xml
+federation.param.saml.serviceProviderEntityId=Knox-saml-workshop
 ```
-           <param>
-              <name>saml.identityProviderMetadataPath</name>
-              <value>/etc/knox/conf/idp.xml</value>
-            </param>
-```
+
 -  7.  Setup any service for SSO authentication and verify the SSO redirection and authentication.
 
--  8.  Sample config knoxsso.xml_saml_keycloak
+-  8.  Sample config knoxsso.xml 
 
+```xml
+<topology>
+    <generated>true</generated>
+    <gateway>
+        <provider>
+            <role>webappsec</role>
+            <name>WebAppSec</name>
+            <enabled>true</enabled>
+            <param>
+                <name>xframe.options.enabled</name>
+                <value>true</value>
+            </param>
+        </provider>
+        <provider>
+            <role>authentication</role>
+            <name>ShiroProvider</name>
+            <enabled>false</enabled>
+            <param>
+                <name>main.pamRealm</name>
+                <value>org.apache.knox.gateway.shirorealm.KnoxPamRealm</value>
+            </param>
+            <param>
+                <name>main.pamRealm.service</name>
+                <value>login</value>
+            </param>
+            <param>
+                <name>redirectToUrl</name>
+                <value>/${GATEWAY_PATH}/knoxsso/knoxauth/login.html</value>
+            </param>
+            <param>
+                <name>restrictedCookies</name>
+                <value>rememberme,WWW-Authenticate</value>
+            </param>
+            <param>
+                <name>sessionTimeout</name>
+                <value>30</value>
+            </param>
+            <param>
+                <name>urls./**</name>
+                <value>authcBasic</value>
+            </param>
+        </provider>
+        <provider>
+            <role>federation</role>
+            <name>pac4j</name>
+            <enabled>true</enabled>
+            <param>
+                <name>clientName</name>
+                <value>SAML2Client</value>
+            </param>
+            <param>
+                <name>pac4j.callbackUrl</name>
+                <value>https://pbhagade-boo-1.pbhagade-boo.root.hwx.site:8443/gateway/knoxsso/api/v1/websso</value>
+            </param>
+            <param>
+                <name>saml.identityProviderMetadataPath</name>
+                <value>/etc/knox/conf/idp.xml</value>
+            </param>
+            <param>
+                <name>saml.serviceProviderEntityId</name>
+                <value>knox-pravin</value>
+            </param>
+        </provider>
+        <provider>
+            <role>identity-assertion</role>
+            <name>Default</name>
+            <enabled>true</enabled>
+        </provider>
+    </gateway>
 
-(Changes required for properties pac4j.callbackUrl, saml.identityProviderMetadataPath,saml.serviceProviderMetadataPath and saml.serviceProviderEntityId)
+    <service>
+        <role>KNOXSSO</role>
+        <param>
+            <name>knoxsso.token.ttl</name>
+            <value>86400000</value>
+        </param>
+    </service>
+    <application>
+        <name>knoxauth</name>
+    </application>
+</topology>
+```
+**Note**
+
+`(Changes required for properties pac4j.callbackUrl, saml.identityProviderMetadataPath and saml.serviceProviderEntityId)`
 
 
 
@@ -570,9 +669,11 @@ curl -ik -u admin:admin http://pbhagade-boo-1.pbhagade-boo.root.hwx.site:8080/au
 ##### Finding Logs:
 When things aren’t working the first thing you need to do is examine the diagnostic logs. Depending upon how you are running the gateway these diagnostic logs will be output to different locations.
 
+
 # How authentication works and its logging
 
 Apache Knox Gateway is a reverse proxy that authenticates and provides a single access point for REST and HTTP interactions with the CDP Data Center clusters.
+
 
 # 1.  Authentication 
 There are two types of providers supported in Knox for establishing a user’s identity:
@@ -587,6 +688,7 @@ There are two types of providers supported in Knox for establishing a user’s i
 The current release of Knox ships with an authentication provider based on the Apache Shiro project and is initially configured for BASIC authentication against an LDAP store. This has been specifically tested against Apache Directory Server and Active Directory.
 
 ![authentication](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/authentication.png)
+
 
 ### General Configuration for Shiro Provider
 
