@@ -1,5 +1,15 @@
 # Knox-workshop
 
+<p align="center">
+  <a href="https://www.jamify.org">
+    <img alt="Jamify" src="https://avatars1.githubusercontent.com/u/66115190?s=200&v=4" />
+  </a>
+</p>
+<h1 align="center">
+  Knox-workshop <br/>
+</h1>
+
+
 In this workshop we will configure and understand Knox authentication to use with Hadoop services in a cluster. For this workshop We need Kerberos enabled CDP-DC 7.X cluster with Knox installed.
 
 ------------------------------------------------------------------------------------------------------------------------------
