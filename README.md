@@ -512,6 +512,11 @@ chown knox:knox /var/lib/knox/gateway/conf/gateway.jks
 cd /var/lib/knox/gateway/data/security/keystores
 mkdir backup
 mv * backup/
+
+#Create truststore
+
+/usr/java/jdk1.8.0_232-cloudera/bin/keytool -import -file /opt/cloudera/CMCA/trust-store/cm-auto-in_cluster_ca_cert.pem -keystore /var/lib/knox/gateway/conf/truststore.jks -alias truststore -storepass Welcome
+
 ```
 
 3. Ignore if master secret key password is same as keystore, if not you can update it to new password:
