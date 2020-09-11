@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://www.jamify.org">
-    <img alt="Jamify" src="https://avatars1.githubusercontent.com/u/66115190?s=200&v=4" />
+    <img alt="Jamify" src="https://knox.apache.org/images/knox-logo.gif?s=200&v=4" />
   </a>
 </p>
 <h1 align="center">
