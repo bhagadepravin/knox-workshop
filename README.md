@@ -488,19 +488,19 @@ https://KNOX-HOSTNAME:8443/gateway/manager/admin-ui/
 
 # LAB 6:
 
-# Replace KNOX SSL certificate
+# 1. Replace KNOX SSL certificate
 
 By default SSL is enabled on Knox, if Auto-TLS is enabled certificates are replaced as per CM configurations:
 
 Follow below steps to replace existing SSL certificate for Knox.
 
-1. Identify existing JKS files
+### Step 1. Identify existing JKS files
 
 ```
 grep -a2 jks /var/lib/knox/gateway/conf/gateway-site.xml
 ```
 
-2. Create a Self signed certificate:
+### Step 2. Create a Self signed certificate:
 
 ```
 /usr/java/jdk1.8.0_232-cloudera/bin/keytool -genkey -alias gateway-identity -keyalg RSA -keysize 1024 -dname "CN=pbhagade-boo-1.pbhagade-boo.root.hwx.site,OU=INTERNL,O=Hadoop,L=SELF,ST=TEST,C=US" -keypass Welcome -keystore gateway.jks -storepass Welcome -keypass Welcome
@@ -519,7 +519,7 @@ mv * backup/
 
 ```
 
-3. Ignore if master secret key password is same as keystore, if not you can update it to new password:
+### Step 3. Ignore if master secret key password is same as keystore, if not you can update it to new password:
 
 ```
 cd /opt/cloudera/parcels/CDH-7.2.1-1.cdh7.2.1.p0.4847773/lib/knox/bin
@@ -548,7 +548,7 @@ ls -ltr /var/lib/knox/gateway/data/security/master
 chown knox:knox /var/lib/knox/gateway/data/security/master
 ```
 
-4. Update the CM configs(alias and JKS):
+### Step 4. Update the CM configs(alias and JKS):
 
 `CM UI -> KNOX -> Configuration --> Security - TLS Certificate Alias (Optional)`
 
@@ -564,7 +564,7 @@ gateway.tls.keystore.path
 gateway.httpclient.truststore.path
 ```
 
-5. Update the JCEKS credentails:
+### Step 5. Update the JCEKS credentails:
 
 ```
 /opt/cloudera/parcels/CDH-7.2.1-1.cdh7.2.1.p0.4847773/lib/knox/bin/knoxcli.sh create-alias cm.discovery.user --value admin
@@ -573,7 +573,7 @@ gateway.httpclient.truststore.path
 /opt/cloudera/parcels/CDH-7.2.1-1.cdh7.2.1.p0.4847773/lib/knox/bin/knoxcli.sh create-alias gatewaytruststorepassword --value Welcome
 ```
 
-6. Save and restart the Knox:
+### Step 6. Save and restart the Knox:
 
 Check if the log file for any issues:
 
@@ -584,7 +584,7 @@ Use openssl cmd to verify the certificate:
 `openssl s_client -connect localhost:8443`
 
 
-# Knox SSO with keycloak
+# 2.  Knox SSO with keycloak
 
 Before you start
 Make sure you have Docker installed.
