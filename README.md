@@ -4,7 +4,7 @@
   </a>
 </p>
 <h1 align="center">
-  🎓 Knox Workshop <br/>
+   Knox Workshop <br/>
 </h1>
 
 
@@ -59,7 +59,7 @@ In this workshop we will configure and understand Knox authentication to use wit
 
 # LAB 1: 
 
-# Knox Overview
+# 🎓 Knox Overview
 
 ![Knox](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/knox-services.png)
 
@@ -76,7 +76,7 @@ In this workshop we will configure and understand Knox authentication to use wit
     -  once inside the cluster, there is direct access to those resources for which you have line of sight
 -  We have Knox Homepage which provide a list of UI and API endpoints. 
 
-# Knox Usecase:
+# 🎓 Knox Usecase:
 
 I] *Fresh 7.x DC Cluster*
   1. Knox is not installed
@@ -93,13 +93,13 @@ I] *Fresh 7.x DC Cluster*
        -  Authentication is done at the gateway via the Shiro authentication provider
        -  Upon successful authentication the request is dispatched to the backend service API - propagating the effective user via trusted proxy (kerberos+doAs)
 
-# [Knox configs](https://docs.cloudera.com/cloudera-manager/7.1.1/installation/topics/cdpdc-knox-install-parameters.html)
+# 🎓 [Knox configs](https://docs.cloudera.com/cloudera-manager/7.1.1/installation/topics/cdpdc-knox-install-parameters.html)
 
 
 
 # LAB 2:
 
-# Install Knox
+# 🎓 Install Knox
  
  **Step 1:**  Setup CDP-DC cluster with latest version.(Use squadron or Ycloud)
  
