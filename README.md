@@ -550,7 +550,10 @@ chown knox:knox /var/lib/knox/gateway/data/security/master
 gateway_tls_certificate_alias=gateway-identity
 
 `CM UI -> KNOX -> Configuration --> Knox Gateway TLS/SSL Server JKS Keystore File Location`
+
+
 `CM UI -> KNOX -> Configuration --> Knox Gateway TLS/SSL Client Trust Store File`
+
 ```
 gateway.tls.keystore.path
 gateway.httpclient.truststore.path
