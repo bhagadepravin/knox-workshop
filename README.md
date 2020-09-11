@@ -99,7 +99,7 @@ I] *Fresh 7.x DC Cluster*
 
 # LAB 2:
 
-# 🎓 Install Knox
+# 🏁  Install Knox
  
  **Step 1:**  Setup CDP-DC cluster with latest version.(Use squadron or Ycloud)
  
@@ -865,7 +865,7 @@ tail -f /var/log/knox/gateway/gateway.log /var/log/knox/gateway/gateway-audit.lo
 ![authentication-failure](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/authentication%20failure.png)
 
 
-# 3. Error codes
+# 3. 💣  Error codes
 
 -  401 (authentication error)
 -  403 (forbidded error)
