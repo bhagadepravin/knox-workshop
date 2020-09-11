@@ -488,6 +488,93 @@ https://KNOX-HOSTNAME:8443/gateway/manager/admin-ui/
 
 # LAB 6:
 
+# Replace KNOX SSL certificate
+
+By default SSL is enabled on Knox, if Auto-TLS is enabled certificates are replaced as per CM configurations:
+
+Follow below steps to replace existing SSL certificate for Knox.
+
+1. Identify existing JKS files
+
+```
+grep -a2 jks /var/lib/knox/gateway/conf/gateway-site.xml
+```
+
+2. Create a Self signed certificate:
+
+```
+/usr/java/jdk1.8.0_232-cloudera/bin/keytool -genkey -alias gateway-identity -keyalg RSA -keysize 1024 -dname "CN=pbhagade-boo-1.pbhagade-boo.root.hwx.site,OU=INTERNL,O=Hadoop,L=SELF,ST=TEST,C=US" -keypass Welcome -keystore gateway.jks -storepass Welcome -keypass Welcome
+
+cp gateway.jks /var/lib/knox/gateway/conf/
+ls -ltr /var/lib/knox/gateway/conf/gateway.jks
+chown knox:knox /var/lib/knox/gateway/conf/gateway.jks
+
+cd /var/lib/knox/gateway/data/security/keystores
+mkdir backup
+mv * backup/
+```
+
+3. Ignore if master secret key password is same as keystore, if not you can update it to new password:
+
+```
+cd /opt/cloudera/parcels/CDH-7.2.1-1.cdh7.2.1.p0.4847773/lib/knox/bin
+
+export KNOX_GATEWAY_CONF_DIR=/var/lib/knox/gateway/conf
+export KNOX_GATEWAY_DATA_DIR=/var/lib/knox/gateway/data
+export KNOX_GATEWAY_LOG_DIR=/var/log/knox/gateway
+export KNOX_GATEWAY_LOG_OPTS="-Dlog4j.configuration=/var/lib/knox/gateway/conf/gateway-log4j.properties"
+export KNOX_CLI_LOG_OPTS="-Dlog4j.configuration=/var/lib/knox/gateway/conf/knoxcli-log4j.properties"
+
+./knoxcli.sh create-master --force
+
+
+[root@pbhagade-boo-1 bin]# ./knoxcli.sh create-master --force
+***************************************************************************************************
+You have indicated that you would like to persist the master secret for this service instance.
+Be aware that this is less secure than manually entering the secret on startup.
+The persisted file will be encrypted and primarily protected through OS permissions.
+***************************************************************************************************
+Enter master secret:
+Enter master secret again:
+Master secret has been persisted to disk.
+[root@pbhagade-boo-1 bin]#
+
+ls -ltr /var/lib/knox/gateway/data/security/master
+chown knox:knox /var/lib/knox/gateway/data/security/master
+```
+
+4. Update the CM configs(alias and JKS):
+
+`CM UI -> KNOX -> Configuration --> Security - TLS Certificate Alias (Optional)`
+
+gateway_tls_certificate_alias=gateway-identity
+
+`CM UI -> KNOX -> Configuration --> Knox Gateway TLS/SSL Server JKS Keystore File Location`
+`CM UI -> KNOX -> Configuration --> Knox Gateway TLS/SSL Client Trust Store File`
+```
+gateway.tls.keystore.path
+gateway.httpclient.truststore.path
+```
+
+5. Update the JCEKS credentails:
+
+```
+/opt/cloudera/parcels/CDH-7.2.1-1.cdh7.2.1.p0.4847773/lib/knox/bin/knoxcli.sh create-alias cm.discovery.user --value admin
+/opt/cloudera/parcels/CDH-7.2.1-1.cdh7.2.1.p0.4847773/lib/knox/bin/knoxcli.sh create-alias cm.discovery.password --value admin
+/opt/cloudera/parcels/CDH-7.2.1-1.cdh7.2.1.p0.4847773/lib/knox/bin/knoxcli.sh create-alias gatewaykeystorepassword --value Welcome
+/opt/cloudera/parcels/CDH-7.2.1-1.cdh7.2.1.p0.4847773/lib/knox/bin/knoxcli.sh create-alias gatewaytruststorepassword --value Welcome
+```
+
+6. Save and restart the Knox:
+
+Check if the log file for any issues:
+
+`tailf /var/log/knox/gateway/gateway.log`
+
+Use openssl cmd to verify the certificate:
+
+`openssl s_client -connect localhost:8443`
+
 
 # Knox SSO with keycloak
 
