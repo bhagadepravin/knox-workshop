@@ -4,7 +4,7 @@
   </a>
 </p>
 <h1 align="center">
-  Knox Workshop <br/>
+  🎓 Knox Workshop <br/>
 </h1>
 
 
