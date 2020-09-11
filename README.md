@@ -61,7 +61,7 @@ In this workshop we will configure and understand Knox authentication to use wit
 
 # 🎓 Knox Overview
 
-![Knox](https://github.com/bhagadepravin/knox-workshop/blob/master/jpeg/knox-services.png)
+![Knox](https://raw.githubusercontent.com/bhagadepravin/knox-workshop/master/jpeg/knox-s.png)
 
 -  Knox can only be deployed in secure clusters with kerberos enabled
 -  Knox will need to be explicitly installed - it is NOT installed by default in secure clusters
