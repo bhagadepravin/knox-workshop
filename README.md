@@ -127,15 +127,6 @@ auth sufficient pam_sss.so
 account sufficient pam_unix.so
 account sufficient pam_sss.so
 
-
-$ vi /etc/pam.d/cdp-dc-remote
-
-#%PAM-1.0
-auth sufficient pam_unix.so
-auth sufficient pam_sss.so
-account sufficient pam_unix.so
-account sufficient pam_sss.so
-
 $ chmod 444 /etc/shadow
 
 # create a user who is part of admin group
