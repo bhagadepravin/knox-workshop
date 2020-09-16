@@ -131,10 +131,9 @@ $ chmod 444 /etc/shadow
 
 # create a user who is part of admin group
 
-$ groupadd admin
-$ useradmin <username>
-$ usermod -a -G admin <username>
-$ id <username>
+$ useradd admin
+$ usermod -a -G admin admin
+$ id admin
  ```
  
  **Step 5:** Use above username and password to login into Knox Homepage UI or Admin page UI.
