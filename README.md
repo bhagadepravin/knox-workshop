@@ -485,9 +485,12 @@ https://KNOX-HOSTNAME:8443/gateway/manager/admin-ui/
 
 # LAB 6:
 
-# 1. Replace KNOX SSL certificate
+# Replace KNOX SSL certificate
+Here We have Two Options, 
+1. Auto-TLS Disabled
+2. Auto-TLS Enabled
 
-I] Please follow below steps when you **do not have Auto-TLS enabled**.
+## I] Please follow below steps when you **do not have Auto-TLS enabled**.
 
 ```bash
 # Check the existing Knox certificate:
@@ -537,6 +540,8 @@ $ openssl s_client -showcerts -connect localhost:8443
 By default SSL is enabled on Knox, if Auto-TLS is enabled certificates are replaced as per CM configurations:
 
 Follow below steps to replace existing SSL certificate for Knox.
+
+## II] Auto-TLS Enabled Steps:
 
 ### Step 1. Identify existing JKS files
 
