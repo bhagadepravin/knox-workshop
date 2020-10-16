@@ -487,15 +487,15 @@ https://KNOX-HOSTNAME:8443/gateway/manager/admin-ui/
 
 # 1. Replace KNOX SSL certificate
 
-I] Please follow below steps when you do not have Auto-TLS enabled.
+I] Please follow below steps when you **do not have Auto-TLS enabled**.
 
-# Check the existing Knox certificate:
 ```bash
+# Check the existing Knox certificate:
 $ openssl s_client -showcerts -connect localhost:8443	
 $ ll /var/lib/knox/gateway/data/security/keystores/gateway.jks
 $ /usr/java/jdk1.8.0_232-cloudera/bin/keytool -list -keystore /var/lib/knox/gateway/data/security/keystores/gateway.jks
 ```
-## Step 1.  Stop Knox Server:
+### Step 1.  Stop Knox Server:
 ```bash
 ls -ltr /var/lib/knox/gateway/data/security/keystores
 cd /var/lib/knox/gateway/data/security/keystores/
@@ -509,7 +509,7 @@ cd /var/lib/knox/gateway/data/security/keystores/
 chown knox:knox /var/lib/knox/gateway/conf/gateway.jks
 ```
 
-## Step 2: Ignore if master secret key password is same as keystore, if not you can update it to new password:
+### Step 2: Ignore if master secret key password is same as keystore, if not you can update it to new password:
 
 ```bash
 cd /opt/cloudera/parcels/CDH-*/lib/knox/bin
@@ -525,7 +525,7 @@ ls -ltr /var/lib/knox/gateway/data/security/master
 chown knox:knox /var/lib/knox/gateway/data/security/master
 ```
 
-## Step 3: Start Knox service:
+### Step 3: Start Knox service:
 ```bash
 ls -ltr /var/lib/knox/gateway/data/security/keystores
 
