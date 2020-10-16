@@ -487,6 +487,53 @@ https://KNOX-HOSTNAME:8443/gateway/manager/admin-ui/
 
 # 1. Replace KNOX SSL certificate
 
+I] Please follow below steps when you do not have Auto-TLS enabled.
+
+# Check the existing Knox certificate:
+```bash
+$ openssl s_client -showcerts -connect localhost:8443	
+$ ll /var/lib/knox/gateway/data/security/keystores/gateway.jks
+$ /usr/java/jdk1.8.0_232-cloudera/bin/keytool -list -keystore /var/lib/knox/gateway/data/security/keystores/gateway.jks
+```
+## Step 1.  Stop Knox Server:
+```bash
+ls -ltr /var/lib/knox/gateway/data/security/keystores
+cd /var/lib/knox/gateway/data/security/keystores/
+mkdir /tmp/backup
+mv * /tmp/backup
+```
+
+```bash
+cd /var/lib/knox/gateway/data/security/keystores/
+/usr/java/jdk1.8.0_232-cloudera/bin/keytool -genkey -alias gateway-identity -keyalg RSA -keysize 1024 -dname "CN=c474-node4.supportlab.cloudera.com,OU=INTERNL,O=Hadoop,L=SELF,ST=TEST,C=US" -keypass Welcome -keystore gateway.jks -storepass Welcome -keypass Welcome
+chown knox:knox /var/lib/knox/gateway/conf/gateway.jks
+```
+
+## Step 2: Ignore if master secret key password is same as keystore, if not you can update it to new password:
+
+```bash
+cd /opt/cloudera/parcels/CDH-*/lib/knox/bin
+pwd
+export KNOX_GATEWAY_CONF_DIR=/var/lib/knox/gateway/conf
+export KNOX_GATEWAY_DATA_DIR=/var/lib/knox/gateway/data
+export KNOX_GATEWAY_LOG_DIR=/var/log/knox/gateway
+export KNOX_GATEWAY_LOG_OPTS="-Dlog4j.configuration=/var/lib/knox/gateway/conf/gateway-log4j.properties"
+export KNOX_CLI_LOG_OPTS="-Dlog4j.configuration=/var/lib/knox/gateway/conf/knoxcli-log4j.properties"
+
+./knoxcli.sh create-master --force
+ls -ltr /var/lib/knox/gateway/data/security/master
+chown knox:knox /var/lib/knox/gateway/data/security/master
+```
+
+## Step 3: Start Knox service:
+```bash
+ls -ltr /var/lib/knox/gateway/data/security/keystores
+
+# Check the new Knox certificate: 
+$ openssl s_client -showcerts -connect localhost:8443
+```
+------------------------------------------------------------------------------------------------------------------------------------
+
 By default SSL is enabled on Knox, if Auto-TLS is enabled certificates are replaced as per CM configurations:
 
 Follow below steps to replace existing SSL certificate for Knox.
