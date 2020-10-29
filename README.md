@@ -59,7 +59,7 @@ In this workshop we will configure and understand Knox authentication to use wit
 
  - [LAB 8:] 
    -  Usecase
-      -  Configure  knox kerberos topology using CM
+      -  (Configure  knox kerberos topology using CM)[https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#---configure--knox-kerberos-topology-using-cm]
       -  Configure  default sso provider using CM (Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider)
       -  Configure  default sso provider for (shiro authentication + group lookup) using CM
       -  Access atlas-api using Knox in Non-Kerberos env (we recommnded kerberos env for knox else most of the service wont work and we dont have list of it)
@@ -1089,6 +1089,11 @@ Restart Knox and test.
 Check knox gateway.log for any issues
 
 ###    -  Access atlas-api using Knox in Non-Kerberos env 
+
+CDP deployment for Knox assumes secure clusters. Kerberos is required for the necessary trusted proxy doAs capability. There are a handful of services that would work with pseudo/simple auth from Knox but that is not certified in CDP by QE and I couldn't even tell you the definitive list of services that would work.
+
+
+As trusted proxy doesnt work without kerberos, customer can leverage knox SSO. Followed below steps and was able to validate atlas API using cdp-proxy topology
 
 
 -  Configure atlas for SSO authentication: 
