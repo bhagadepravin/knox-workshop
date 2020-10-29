@@ -986,6 +986,10 @@ In most cases, if any of the above are a problem, you will end up in an “endle
 -  Make sure that user you tried to log in with is configured for access to Service A
 If this is a problem, you will end up in a redirect loop potentially as well.
 
+##### References
+https://knox.apache.org/books/knox-1-2-0/user-guide.html#KnoxSSO+Setup+and+Configuration
+https://docs.hortonworks.com/HDPDocuments/HDP3/HDP-3.1.0/configuring-knox-sso/content/knox_sso.html
+https://knox.apache.org/books/knox-1-2-0/dev-guide.html#KnoxSSO+Integration
 
 
 # LAB 8
@@ -1081,14 +1085,3 @@ identity-assertion.param.group.principal.case=lower
 Restart Knox and test.
 
 Check knox gateway.log for any issues
-
-
-
-
-
-##### References
-https://knox.apache.org/books/knox-1-2-0/user-guide.html#KnoxSSO+Setup+and+Configuration
-https://docs.hortonworks.com/HDPDocuments/HDP3/HDP-3.1.0/configuring-knox-sso/content/knox_sso.html
-https://knox.apache.org/books/knox-1-2-0/dev-guide.html#KnoxSSO+Integration
-
-
