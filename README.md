@@ -60,15 +60,9 @@ In this workshop we will configure and understand Knox authentication to use wit
  - [LAB 8:] 
    -  Usecase
       -  Configure  knox kerberos topology using CM
-      -  Configure  default sso provider using CM
+      -  Configure  default sso provider using CM (Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider)
       -  Configure  default sso provider for (shiro authentication + group lookup) using CM
-      -  Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider
-
-      
-      
-      
-      
-      
+    
 # LAB 1: 
 
 # 🎓 Knox Overview
@@ -1000,15 +994,92 @@ If this is a problem, you will end up in a redirect loop potentially as well.
 
 ###   -  Configure  knox kerberos topology using CM
 
+`Goto -> CM -> Knox -> Knox Gateway Advanced Configuration Snippet (Safety Valve) for conf/cdp-resources.xml`
+
+```bash
+name = providerConfigs:kerberos1
+value = role=authentication#authentication.name=HadoopAuth#authentication.param.config.prefix=hadoop.auth.config#authentication.param.hadoop.auth.config.signature.secret=knox-signature-secret#authentication.param.hadoop.auth.config.type=kerberos#authentication.param.hadoop.auth.config.simple.anonymous.allowed=false#authentication.param.hadoop.auth.config.token.validity=1800#authentication.param.hadoop.auth.config.cookie.domain=root.hwx.site#authentication.param.hadoop.auth.config.cookie.path=/gateway/kerberos1#authentication.param.hadoop.auth.config.kerberos.principal=HTTP/knox-workshop-1.knox-workshop.root.hwx.site@ROOT.HWX.SITE#authentication.param.hadoop.auth.config.kerberos.keytab=/home/knox.keytab#authentication.param.hadoop.auth.config.kerberos.name.rules=DEFAULT#role=identity-assertion#identity-assertion.name=Default#role=authorization#authorization.name=XASecurePDPKnox
+
+
+
+name = kerberos1
+value = providerConfigRef=kerberos#discoveryType=ClouderaManager#discoveryAddress=https://knox-workshop-1.knox-workshop.root.hwx.site:7183/#cluster=Cluster 1#discoveryUser=admin#discoveryPasswordAlias=admin#WEBHDFS
+```
+* Note: you need modify above values like principal,domain,keytab
+
+Restart Knox and test.
+
+Check knox gateway.log for any issues
 
 ###   -  Configure  default sso provider using CM
+###   -  Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider
 
+`Goto -> CM -> Knox -> Knox Gateway Advanced Configuration Snippet (Safety Valve) for conf/cdp-resources.xml`
+
+```
+name = providerConfigs:sso
+
+value = role=federation#federation.name=SSOCookieProvider#federation.param.sso.authentication.provider.url=https://pbhagade-p1-2.pbhagade-p1.root.hwx.site:8443/gateway/knoxsso/api/v1/websso#role=identity-assertion#identity-assertion.name=HadoopGroupProvider#identity-assertion.enabled=true#identity-assertion.param.CENTRAL_GROUP_CONFIG_PREFIX=gateway.group.config#role=authorization#authorization.name=XASecurePDPKnox#authorization.enabled=true
+```
+* Note: you need modify above values like #federation.params.sso.authentication.provider.url to your knox hostname
+
+Restart Knox and test.
+
+Check knox gateway.log for any issues
 
 
 ###   -   Configure  default sso provider for (shiro authentication + group lookup) using CM
 
+`Goto -> CM -> Knox -> Knox Gateway Advanced Configuration Snippet (Safety Valve) for conf/cdp-resources.xml`
 
-###   -   Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider
+```
+name = providerConfigs:sso
+
+value = role=federation#federation.name=SSOCookieProvider#federation.enabled=false#role=authentication#authentication.name=ShiroProvider#authentication.param.sessionTimeout=30#authentication.param.main.ldapRealm=org.apache.hadoop.gateway.shirorealm.KnoxLdapRealm#authentication.param.main.ldapContextFactory=org.apache.knox.gateway.shirorealm.KnoxLdapContextFactory#authentication.param.main.ldapRealm.contextFactory=$ldapContextFactory#authentication.param.main.ldapRealm.contextFactory.url=ldap://localhost:33389#authentication.param.main.ldapRealm.contextFactory.authenticationMechanism=simple#authentication.param.main.ldapRealm.userDnTemplate=uid={0},ou=people,dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.userSearchAttributeName=uid#authentication.param.main.ldapRealm.authorizationEnabled=true#authentication.param.main.ldapRealm.contextFactory.systemUsername=uid=guest,ou=people,dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.contextFactory.systemPassword=guest-password#authentication.param.main.ldapRealm.contextFactory.systemAuthenticationMechanism=simple#authentication.param.main.ldapRealm.userObjectClass=person#authentication.param.main.ldapRealm.searchBase=dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.userSearchBase=dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.groupSearchBase=dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.groupObjectClass=groupofnames#authentication.param.main.ldapRealm.memberAttribute=member#authentication.param.main.ldapRealm.memberAttributeValueTemplate=uid={0},ou=people,dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.groupIdAttribute=cn#authentication.param.urls./**=authcBasic##role=identity-assertion#identity-assertion.name=SwitchCase#identity-assertion.enabled=true#identity-assertion.param.principal.case=lower#identity-assertion.param.group.principal.case=lower
+
+
+Above should look like:
+role=federation
+federation.name=SSOCookieProvider
+federation.enabled=false
+role=authentication
+authentication.name=ShiroProvider
+authentication.param.sessionTimeout=30
+authentication.param.redirectToUrl=/${GATEWAY_PATH}/knoxsso/knoxauth/login.html
+authentication.param.restrictedCookies=rememberme,WWW-Authenticate
+authentication.param.urls./**=authcBasic
+authentication.param.main.ldapRealm=org.apache.hadoop.gateway.shirorealm.KnoxLdapRealm
+authentication.param.main.ldapContextFactory=org.apache.knox.gateway.shirorealm.KnoxLdapContextFactory
+authentication.param.main.ldapRealm.contextFactory=$ldapContextFactory
+authentication.param.main.ldapRealm.contextFactory.url=ldap://localhost:33389
+authentication.param.main.ldapRealm.contextFactory.authenticationMechanism=simple
+authentication.param.main.ldapRealm.userDnTemplate=uid={0},ou=people,dc=hadoop,dc=apache,dc=org
+authentication.param.main.ldapRealm.userSearchAttributeName=uid
+authentication.param.main.ldapRealm.authorizationEnabled=true
+authentication.param.main.ldapRealm.contextFactory.systemUsername=uid=guest,ou=people,dc=hadoop,dc=apache,dc=org
+authentication.param.main.ldapRealm.contextFactory.systemPassword=guest-password
+authentication.param.main.ldapRealm.contextFactory.systemAuthenticationMechanism=simple
+authentication.param.main.ldapRealm.userObjectClass=person
+authentication.param.main.ldapRealm.searchBase=dc=hadoop,dc=apache,dc=org
+authentication.param.main.ldapRealm.userSearchBase=dc=hadoop,dc=apache,dc=org
+authentication.param.main.ldapRealm.groupSearchBase=dc=hadoop,dc=apache,dc=org
+authentication.param.main.ldapRealm.groupObjectClass=groupofnames
+authentication.param.main.ldapRealm.memberAttribute=member
+authentication.param.main.ldapRealm.memberAttributeValueTemplate=uid={0},ou=people,dc=hadoop,dc=apache,dc=org
+authentication.param.main.ldapRealm.groupIdAttribute=cn
+role=identity-assertion
+identity-assertion.name=SwitchCase
+identity-assertion.enabled=true
+identity-assertion.param.principal.case=lower
+identity-assertion.param.group.principal.case=lower
+```
+
+* Note: you need modify above values like ldap details
+
+Restart Knox and test.
+
+Check knox gateway.log for any issues
+
 
 
 
