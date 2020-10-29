@@ -1016,7 +1016,7 @@ Check knox gateway.log for any issues
 
 `Goto -> CM -> Knox -> Knox Gateway Advanced Configuration Snippet (Safety Valve) for conf/cdp-resources.xml`
 
-```
+```sh
 name = providerConfigs:sso
 
 value = role=federation#federation.name=SSOCookieProvider#federation.param.sso.authentication.provider.url=https://pbhagade-p1-2.pbhagade-p1.root.hwx.site:8443/gateway/knoxsso/api/v1/websso#role=identity-assertion#identity-assertion.name=HadoopGroupProvider#identity-assertion.enabled=true#identity-assertion.param.CENTRAL_GROUP_CONFIG_PREFIX=gateway.group.config#role=authorization#authorization.name=XASecurePDPKnox#authorization.enabled=true
@@ -1032,13 +1032,15 @@ Check knox gateway.log for any issues
 
 `Goto -> CM -> Knox -> Knox Gateway Advanced Configuration Snippet (Safety Valve) for conf/cdp-resources.xml`
 
-```
+```bash
 name = providerConfigs:sso
 
 value = role=federation#federation.name=SSOCookieProvider#federation.enabled=false#role=authentication#authentication.name=ShiroProvider#authentication.param.sessionTimeout=30#authentication.param.main.ldapRealm=org.apache.hadoop.gateway.shirorealm.KnoxLdapRealm#authentication.param.main.ldapContextFactory=org.apache.knox.gateway.shirorealm.KnoxLdapContextFactory#authentication.param.main.ldapRealm.contextFactory=$ldapContextFactory#authentication.param.main.ldapRealm.contextFactory.url=ldap://localhost:33389#authentication.param.main.ldapRealm.contextFactory.authenticationMechanism=simple#authentication.param.main.ldapRealm.userDnTemplate=uid={0},ou=people,dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.userSearchAttributeName=uid#authentication.param.main.ldapRealm.authorizationEnabled=true#authentication.param.main.ldapRealm.contextFactory.systemUsername=uid=guest,ou=people,dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.contextFactory.systemPassword=guest-password#authentication.param.main.ldapRealm.contextFactory.systemAuthenticationMechanism=simple#authentication.param.main.ldapRealm.userObjectClass=person#authentication.param.main.ldapRealm.searchBase=dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.userSearchBase=dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.groupSearchBase=dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.groupObjectClass=groupofnames#authentication.param.main.ldapRealm.memberAttribute=member#authentication.param.main.ldapRealm.memberAttributeValueTemplate=uid={0},ou=people,dc=hadoop,dc=apache,dc=org#authentication.param.main.ldapRealm.groupIdAttribute=cn#authentication.param.urls./**=authcBasic##role=identity-assertion#identity-assertion.name=SwitchCase#identity-assertion.enabled=true#identity-assertion.param.principal.case=lower#identity-assertion.param.group.principal.case=lower
-
+```
 
 Above should look like:
+
+```bash
 role=federation
 federation.name=SSOCookieProvider
 federation.enabled=false
