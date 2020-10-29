@@ -59,10 +59,10 @@ In this workshop we will configure and understand Knox authentication to use wit
 
  - [LAB 8:] 
    -  Usecase
-      -  (Configure  knox kerberos topology using CM)[https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#---configure--knox-kerberos-topology-using-cm]
-      -  Configure  default sso provider using CM (Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider)
-      -  Configure  default sso provider for (shiro authentication + group lookup) using CM
-      -  Access atlas-api using Knox in Non-Kerberos env (we recommnded kerberos env for knox else most of the service wont work and we dont have list of it)
+      -  [Configure  knox kerberos topology using CM](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#---configure--knox-kerberos-topology-using-cm)
+      -  [Configure  default sso provider using CM (Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider)](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#---configure--default-sso-provider-using-cm)
+      -  [Configure  default sso provider for (shiro authentication + group lookup) using CM](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#----configure--default-sso-provider-for-shiro-authentication--group-lookup-using-cm)
+      -  [Access atlas-api using Knox in Non-Kerberos env (we recommnded kerberos env for knox else most of the service wont work and we dont have list of it)](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#---access-atlas-api-using-knox-in-non-kerberos-env)
       
       
 # LAB 1: 
