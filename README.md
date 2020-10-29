@@ -1123,7 +1123,7 @@ Add below xml content to add `'knoxsso.cookie.secure.only'`
 - Use below API to test atlas API with knox SSO authentication .
 
 ```bash
- curl  -s -c cookie.txt -b cookie.txt  -k -u admin:'hadoop12345!' -L 'https://<knoxHost>:8443/gateway/cdp-proxy/atlas/api/atlas/admin/status'
+ curl  -s -c cookie.txt -b cookie.txt  -k -u USER:PASSWORD -L 'https://<knoxHost>:8443/gateway/cdp-proxy/atlas/api/atlas/admin/status'
 {"Status":"ACTIVE"}
 ```
 
