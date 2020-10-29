@@ -62,7 +62,9 @@ In this workshop we will configure and understand Knox authentication to use wit
       -  Configure  knox kerberos topology using CM
       -  Configure  default sso provider using CM (Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider)
       -  Configure  default sso provider for (shiro authentication + group lookup) using CM
-    
+      -  Access atlas-api using Knox in Non-Kerberos env (we recommnded kerberos env for knox else most of the service wont work and we dont have list of it)
+      
+      
 # LAB 1: 
 
 # 🎓 Knox Overview
@@ -1085,3 +1087,43 @@ identity-assertion.param.group.principal.case=lower
 Restart Knox and test.
 
 Check knox gateway.log for any issues
+
+###    -  Access atlas-api using Knox in Non-Kerberos env 
+
+
+-  Configure atlas for SSO authentication: 
+
+`CM UI > Atlas > Configurations (set below properties)`
+
+```bash
+atlas.sso.knox.enabled (select check box)
+atlas.sso.knox.providerurl : https://<knoxHost>:8443/gateway/knoxsso/api/v1/websso
+atlas.sso.knox.publicKey : signing public key ( by default knox ssl public cert)
+```
+
+`$JAVA_HOME/bin/keytool -printcert -sslserver <knox>:<port> -rfc`
+
+Copy PEM content without BEGIN and END lines to the text field. 
+
+- As knoxsso is configured to use cookies only with ssl enabled services, set the property in knox configs `'knoxsso.cookie.secure.only=false'` if Atlas is non-ssl. 
+
+
+`CM UI > Knox > Knox Gateway Advanced Configuration Snippet (Safety Valve) for conf/cdp-resources.xml`
+
+Add below xml content to add `'knoxsso.cookie.secure.only'`
+
+```
+<property>
+<name>knoxsso</name>
+<value>providerConfigRef=knoxsso#KNOXSSO:knoxsso.token.ttl=86400000#KNOXSSO:knoxsso.cookie.secure.only=false#app:knoxauth</value>
+</property>
+```
+
+- Restart Atlas and Knox services 
+- Use below API to test atlas API with knox SSO authentication .
+
+```bash
+ curl  -s -c cookie.txt -b cookie.txt  -k -u admin:'hadoop12345!' -L 'https://<knoxHost>:8443/gateway/cdp-proxy/atlas/api/atlas/admin/status'
+{"Status":"ACTIVE"}
+```
+
