@@ -57,7 +57,7 @@ In this workshop we will configure and understand Knox authentication to use wit
       -  Error codes
       -  How Knoxsso works, and its logging
 
- - [LAB 8:] 
+ - [LAB 8:](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#lab-8)
    -  Usecase
       -  [Configure  knox kerberos topology using CM](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#---configure--knox-kerberos-topology-using-cm)
       -  [Configure  default sso provider using CM (Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider)](https://github.com/bhagadepravin/knox-workshop/blob/master/README.md#---configure--default-sso-provider-using-cm)
