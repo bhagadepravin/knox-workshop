@@ -995,19 +995,23 @@ If this is a problem, you will end up in a redirect loop potentially as well.
 
 
 # LAB 8
-###   -  Usecase
 
-##   -  Configure  knox kerberos topology using CM
+##   -  Usecases
+
+###   -  Configure  knox kerberos topology using CM
 
 
 ###   -  Configure  default sso provider using CM
 
 
 
-####   -   Configure  default sso provider for (shiro authentication + group lookup) using CM
+###   -   Configure  default sso provider for (shiro authentication + group lookup) using CM
 
 
-##   -   Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider
+###   -   Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider
+
+
+
 
 ##### References
 https://knox.apache.org/books/knox-1-2-0/user-guide.html#KnoxSSO+Setup+and+Configuration
