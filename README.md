@@ -57,6 +57,18 @@ In this workshop we will configure and understand Knox authentication to use wit
       -  Error codes
       -  How Knoxsso works, and its logging
 
+ - [LAB 8:] 
+   -  Usecase
+      -  Configure  knox kerberos topology using CM
+      -  Configure  default sso provider using CM
+      -  Configure  default sso provider for (shiro authentication + group lookup) using CM
+      -  Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider
+
+      
+      
+      
+      
+      
 # LAB 1: 
 
 # 🎓 Knox Overview
@@ -980,6 +992,22 @@ In most cases, if any of the above are a problem, you will end up in an “endle
 -  Make sure that user you tried to log in with is configured for access to Service A
 If this is a problem, you will end up in a redirect loop potentially as well.
 
+
+
+# LAB 8
+###   -  Usecase
+
+##   -  Configure  knox kerberos topology using CM
+
+
+###   -  Configure  default sso provider using CM
+
+
+
+####   -   Configure  default sso provider for (shiro authentication + group lookup) using CM
+
+
+##   -   Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider
 
 ##### References
 https://knox.apache.org/books/knox-1-2-0/user-guide.html#KnoxSSO+Setup+and+Configuration
