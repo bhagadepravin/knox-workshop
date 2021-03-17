@@ -1018,14 +1018,15 @@ Restart Knox and test.
 Check knox gateway.log for any issues
 
 ###   -  Configure  default sso provider using CM
-###   -  Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider
+
+##   -  Enable group lookup for cdp-proxy using identity-assertion as HadoopGroupProvider
 
 `Goto -> CM -> Knox -> Knox Gateway Advanced Configuration Snippet (Safety Valve) for conf/cdp-resources.xml`
 
 ```sh
 name = providerConfigs:sso
 
-value = role=federation#federation.name=SSOCookieProvider#federation.param.sso.authentication.provider.url=https://pbhagade-p1-2.pbhagade-p1.root.hwx.site:8443/gateway/knoxsso/api/v1/websso#role=identity-assertion#identity-assertion.name=HadoopGroupProvider#identity-assertion.enabled=true#identity-assertion.param.CENTRAL_GROUP_CONFIG_PREFIX=gateway.group.config#role=authorization#authorization.name=XASecurePDPKnox#authorization.enabled=true
+value = role=federation#federation.name=SSOCookieProvider#federation.param.sso.authentication.provider.url=https://KNOX-HOSTNAME:8443/gateway/knoxsso/api/v1/websso#role=identity-assertion#identity-assertion.name=HadoopGroupProvider#identity-assertion.enabled=true#identity-assertion.param.CENTRAL_GROUP_CONFIG_PREFIX=gateway.group.config#role=authorization#authorization.name=XASecurePDPKnox#authorization.enabled=true
 ```
 * Note: you need modify above values like #federation.params.sso.authentication.provider.url to your knox hostname
 
@@ -1033,8 +1034,20 @@ Restart Knox and test.
 
 Check knox gateway.log for any issues
 
+##### Troubleshooting
+```
+grep -a4 HadoopGroupProvider /var/lib/knox/gateway/conf/topologies/cdp-proxy.xml
 
-###   -   Configure  default sso provider for (shiro authentication + group lookup) using CM
+
+tail -f /var/log/knox/gateway/gateway.log /var/log/knox/gateway/gateway-audit.log
+
+Check if user can see groups:
+
+cat /var/log/knox/gateway/gateway-audit.log  | grep user | grep identity-mapping
+```
+
+
+##   -   Configure  default sso provider for (shiro authentication + group lookup) using CM with SwitchCase identity-assertion
 
 `Goto -> CM -> Knox -> Knox Gateway Advanced Configuration Snippet (Safety Valve) for conf/cdp-resources.xml`
 
@@ -1088,7 +1101,8 @@ Restart Knox and test.
 
 Check knox gateway.log for any issues
 
-###    -  Access atlas-api using Knox in Non-Kerberos env 
+
+##    -  Access atlas-api using Knox in Non-Kerberos env 
 
 CDP deployment for Knox assumes secure clusters. Kerberos is required for the necessary trusted proxy doAs capability. There are a handful of services that would work with pseudo/simple auth from Knox but that is not certified in CDP by QE and I couldn't even tell you the definitive list of services that would work.
 
