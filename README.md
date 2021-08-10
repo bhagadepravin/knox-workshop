@@ -720,6 +720,8 @@ federation.param.clientName=SAML2Client
 federation.param.pac4j.callbackUrl=https://pbhagade-boo-1.pbhagade-boo.root.hwx.site:8443/gateway/knoxsso/api/v1/websso
 federation.param.saml.identityProviderMetadataPath=/etc/knox/conf/idp.xml
 federation.param.saml.serviceProviderEntityId=Knox-saml-workshop
+authentication.param.remove=main.pamRealm
+authentication.param.remove=main.pamRealm.service
 ```
 
 -  7.  Setup any service for SSO authentication and verify the SSO redirection and authentication.
